@@ -1,9 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print, prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'addreportscreen.dart';
 import 'editreportscreen.dart';
 import 'package:Serene_Life/webview.dart';
-import '../../Homescreen.dart';
+import '../../caretakerhomescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -33,20 +35,37 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   late DatabaseReference dbRef;
   late Future<DataSnapshot> _fetchDataFuture;
+  final User? user = FirebaseAuth.instance.currentUser;
+  String? partnerPhoneNumber;
 
+  @override
   @override
   void initState() {
     super.initState();
-    final User? user = FirebaseAuth.instance.currentUser;
-    dbRef = FirebaseDatabase.instance.ref().child(user!.phoneNumber!).child('Reports');
-    _fetchDataFuture = dbRef.once().then((event) => event.snapshot);
+    _fetchDataFuture = fetchdetails();
   }
+
+  Future<DataSnapshot> fetchdetails() async {
+      DocumentSnapshot userProfile = await FirebaseFirestore.instance
+          .collection('Profiles')
+          .doc(user!.phoneNumber)
+          .get();
+      partnerPhoneNumber = userProfile['partnerPhoneNumber'];
+      dbRef = FirebaseDatabase.instance
+          .ref()
+          .child(partnerPhoneNumber.toString())
+          .child('Reports');
+      return dbRef.once().then((event) => event.snapshot);
+  }
+
 
   Future<void> _previewReport(Report report) async {
     try {
       // Fetch all files from Firebase Storage
-      firebase_storage.ListResult result =
-          await firebase_storage.FirebaseStorage.instance.ref('reports').listAll();
+      firebase_storage.ListResult result = await firebase_storage
+          .FirebaseStorage.instance
+          .ref('reports')
+          .listAll();
 
       // Iterate through each file in the result
       for (firebase_storage.Reference ref in result.items) {
@@ -54,15 +73,16 @@ class _ReportScreenState extends State<ReportScreen> {
 
         if (downloadUrl == report.fileUrl) {
           Navigator.pop(context);
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => PdfViewPage(pdfUrl: downloadUrl)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PdfViewPage(pdfUrl: downloadUrl)));
           return;
         }
       }
 
       print('Matching file not found for report: ${report.id}');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('File not found')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('File not found')));
       Navigator.pop(context);
-
     } catch (e) {
       print('Error previewing report: $e');
       Navigator.pop(context);
@@ -76,13 +96,13 @@ class _ReportScreenState extends State<ReportScreen> {
         title: Text('View Reports'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right:8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  MaterialPageRoute(builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),
@@ -90,22 +110,23 @@ class _ReportScreenState extends State<ReportScreen> {
         ],
       ),
       body: FutureBuilder<DataSnapshot>(
-        future: _fetchDataFuture,
-        builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.value == null) {
-            return Center(child: Text('No data available'));
-          } else {
-            final Map<dynamic, dynamic>? reportsData = snapshot.data!.value as Map<dynamic, dynamic>?;
+      future: _fetchDataFuture,
+      builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.value == null) {
+          return Center(child: Text('No data available'));
+        } else {
+      final Map<dynamic, dynamic>? reportsData =
+          snapshot.data!.value as Map<dynamic, dynamic>?;
 
-            if (reportsData == null) {
-              return Center(child: Text('No report data available'));
-            }
+      if (reportsData == null) {
+        return Center(child: Text('No report data available'));
+      }
 
-            List<Report> reports = [];
+      List<Report> reports = [];
 
             reportsData.forEach((key, value) {
               String reportId = key.toString(); // Assuming key is the report ID
@@ -113,7 +134,8 @@ class _ReportScreenState extends State<ReportScreen> {
                 id: reportId,
                 title: value['title'].toString(),
                 description: value['description'].toString(),
-                fileUrl: value['fileUrl'].toString(), // Adjust this according to your data structure
+                fileUrl: value['fileUrl']
+                    .toString(), // Adjust this according to your data structure
               );
               reports.add(report);
             });
@@ -155,16 +177,19 @@ class _ReportScreenState extends State<ReportScreen> {
                     _previewReport(report);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6.0), // Add vertical padding between cards
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 6.0), // Add vertical padding between cards
                     child: Container(
                       child: Card(
                         elevation: 4,
                         color: Colors.blue.shade100,
-                        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         child: ListTile(
                           title: Text(
                             report.title,
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
                             report.description,
@@ -173,7 +198,9 @@ class _ReportScreenState extends State<ReportScreen> {
                           trailing: IconButton(
                             icon: Icon(Icons.edit),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditReportScreen(report: report)));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditReportScreen(report: report)));
                             },
                           ),
                         ),
@@ -194,7 +221,7 @@ class _ReportScreenState extends State<ReportScreen> {
           );
         },
         child: Icon(Icons.add),
-         backgroundColor: const Color(0xff8cccff),
+        backgroundColor: const Color(0xff8cccff),
       ),
     );
   }

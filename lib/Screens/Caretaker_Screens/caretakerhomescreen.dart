@@ -2,11 +2,13 @@
 
 // import 'package:Serene_Life/Screens/Patient/notification.dart';
 import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/PatientScreens/patientscreen.dart';
-import 'package:Serene_Life/Screens/Patient/Dashboard/Reports/viewreportscreen.dart';
+import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/Reports/viewreportscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart' as RegistrationScreen;
 import 'package:Serene_Life/Screens/Patient/profilescreen.dart';
+
+import 'Caretaker_Dashboard/Medication/viewmedicationscreen.dart';
 
 class CaretakerHomeScreen extends StatefulWidget {
   const CaretakerHomeScreen({super.key});
@@ -112,6 +114,13 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PatientScreen(),
+          ),
+        );
+      }
+      if (title == 'Medication') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ViewMedicineScreen(),
           ),
         );
       }
