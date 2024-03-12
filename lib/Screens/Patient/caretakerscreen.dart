@@ -228,8 +228,7 @@ class _CaretakerListScreenState extends State<CaretakerListScreen> {
                       userDetails.add(user);
                     }
 
-                    return Flexible(
-                      child: ListView.builder(
+                    return ListView.builder(
                         itemCount: userDetails.length,
                         itemBuilder: (context, index) {
                           Map<String, dynamic> user = userDetails[index];
@@ -279,7 +278,6 @@ class _CaretakerListScreenState extends State<CaretakerListScreen> {
                             ),
                           );
                         },
-                      ),
                     );
                   }
                 },

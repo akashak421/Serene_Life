@@ -53,11 +53,11 @@ class NotificationHandler {
 
   Future<void> configureFirebaseMessaging() async {
 
-    print("ZZZZZZZZZZZZZZZZZZZZZ");
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       String? title = message.notification?.title;
       String? body = message.notification?.body;
+      print(title);
+      print(body);
       if (title != null && body != null) {
         displayNotification(title, body);
       }

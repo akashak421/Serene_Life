@@ -5,6 +5,7 @@ import 'package:Serene_Life/Screens/Patient/notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:Serene_Life/Screens/Patient/Homescreen.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart';
@@ -18,17 +19,40 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final NotificationHandler notificationHandler = NotificationHandler();
   await notificationHandler.initializeNotifications();
   await notificationHandler.configureFirebaseMessaging();
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  MyApp({Key? key}) : super(key: key);
+
+  void initializeApp() async {
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    await _firebaseMessaging.requestPermission();
+    String _fcmToken = (await _firebaseMessaging.getToken())!;
+    final User? _user = FirebaseAuth.instance.currentUser;
+    await FirebaseFirestore.instance
+        .collection('Profiles')
+        .doc(_user!.phoneNumber.toString())
+        .set(
+      {
+        'token': _fcmToken,
+      },
+      SetOptions(merge: true),
+    );
+    print(_fcmToken);
+    final NotificationHandler notificationHandler = NotificationHandler();
+    await notificationHandler.initializeNotifications();
+    await notificationHandler.configureFirebaseMessaging();
+  }
 
   @override
   Widget build(BuildContext context) {
+    initializeApp(); // Call initialization when MyApp widget is created
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: AuthenticationWrapper(),
