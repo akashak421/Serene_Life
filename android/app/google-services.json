@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "848074464147",
+    "firebase_url": "https://serene-life-6aee9-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "serene-life-6aee9",
+    "storage_bucket": "serene-life-6aee9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848074464147:android:fbf7bb039009582cfce666",
+        "android_client_info": {
+          "package_name": "com.example.phone_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxjaUWFEbV5MLXYuCt1k0xAKyyX_BDoT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848074464147:android:600b53c9ac2643ddfce666",
+        "android_client_info": {
+          "package_name": "com.example.serene_life"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxjaUWFEbV5MLXYuCt1k0xAKyyX_BDoT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
