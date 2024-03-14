@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors, file_names, library_prefixes, use_build_context_synchronously, avoid_print
-import 'package:Serene_Life/Screens/Patient/Dashboard/Medication/viewmedicationscreen.dart';
-import 'package:Serene_Life/Screens/Patient/Dashboard/Reports/viewreportscreen.dart';
-import 'package:Serene_Life/Screens/Patient/caretakerscreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Medication/viewmedicationscreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Reports/viewreportscreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/caretakerscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart' as RegistrationScreen;
-import 'package:Serene_Life/Screens/Patient/profilescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/profilescreen.dart';
+
+import 'Dashboard/Exercises/viewexercisescreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -59,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemDashboard('Reports', Icons.description, Colors.purple),
                   itemDashboard('SOS', Icons.sos, Colors.brown),
                   itemDashboard('Nutrition', Icons.local_dining, Colors.indigo),
-                  itemDashboard('Relaxation', Icons.spa, Colors.teal),
+                  itemDashboard('Exercises', Icons.spa, Colors.teal),
                 ],
               ),
             ),
@@ -133,6 +135,13 @@ Future<void> logoutAndNavigateToRegistration(BuildContext context) async {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => CaretakerListScreen(),
+          ),
+        );
+       }
+       if (title == 'Exercises') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ViewExerciseScreen(),
           ),
         );
        }

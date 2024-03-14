@@ -5,7 +5,7 @@ import 'package:Serene_Life/Screens/Caretaker_Screens/caretakerhomescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:Serene_Life/Screens/Patient/Homescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 

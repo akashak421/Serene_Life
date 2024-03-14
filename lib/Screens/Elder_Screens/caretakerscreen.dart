@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_const_constructors
 
-import 'package:Serene_Life/Screens/Patient/Homescreen.dart';
-import 'package:Serene_Life/Screens/Patient/caretakerdetailscreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/caretakerdetailscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

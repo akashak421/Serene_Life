@@ -1,13 +1,13 @@
 // ignore_for_file: unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_const_constructors, avoid_web_libraries_in_flutter, prefer_const_constructors_in_immutables
 
 // import 'dart:js';
-import 'package:Serene_Life/Screens/Patient/notification.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:Serene_Life/Screens/Patient/Homescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart';
 import 'package:Serene_Life/Screens/splashscreen.dart';
 import 'package:Serene_Life/firebase_options.dart';

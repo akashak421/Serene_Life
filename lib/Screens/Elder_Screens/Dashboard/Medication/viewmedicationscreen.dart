@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last
 
-import 'package:Serene_Life/Screens/Patient/Homescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'editmedicationscreen.dart';
 import 'addmedicationscreen.dart';
 import 'medicinedetailscreen.dart';

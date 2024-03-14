@@ -4,7 +4,7 @@ import 'package:Serene_Life/Screens/authentication/otpscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:Serene_Life/Screens/Patient/Homescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterScreen extends StatefulWidget {

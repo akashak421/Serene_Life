@@ -6,7 +6,7 @@ import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/Report
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart' as RegistrationScreen;
-import 'package:Serene_Life/Screens/Patient/profilescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/profilescreen.dart';
 import 'Caretaker_Dashboard/Excercises/viewexercisescreen.dart';
 import 'Caretaker_Dashboard/Medication/viewmedicationscreen.dart';
 

@@ -1,56 +1,41 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables, library_private_types_in_public_api, prefer_final_fields, prefer_const_constructors, avoid_print
+// ignore_for_file: library_private_types_in_public_api, prefer_final_fields, prefer_const_constructors, avoid_print
 
-import 'package:Serene_Life/Screens/Patient/Homescreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Medication/viewmedicationscreen.dart';
 import 'package:Serene_Life/Screens/styles/fields.dart';
-import 'package:Serene_Life/Screens/Patient/Dashboard/Medication/viewmedicationscreen.dart';
 
-class EditMedicineScreen extends StatefulWidget {
-  final Medicine medicine;
-
-  EditMedicineScreen({required this.medicine});
+class MedicationScreen extends StatefulWidget {
+  const MedicationScreen({super.key});
 
   @override
-  _EditMedicineScreenState createState() => _EditMedicineScreenState();
+  _MedicationScreenState createState() => _MedicationScreenState();
 }
 
-class _EditMedicineScreenState extends State<EditMedicineScreen> {
-  late TextEditingController _medicineNameController;
-  late TextEditingController _dosageController;
-  late TextEditingController _startDateController;
-  late TextEditingController _endDateController;
-  late TextEditingController _timesOfDayController;
-  late TextEditingController _instructionsController;
+class _MedicationScreenState extends State<MedicationScreen> {
+  DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   User? user = FirebaseAuth.instance.currentUser;
-  final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
-  
-  late String medicationId;
+  TextEditingController _medicineNameController = TextEditingController();
+  TextEditingController _dosageController = TextEditingController();
+  TextEditingController _frequencyController = TextEditingController();
+  TextEditingController _startDateController = TextEditingController();
+  TextEditingController _endDateController = TextEditingController();
+  TextEditingController _timesOfDayController = TextEditingController();
+  TextEditingController _instructionsController = TextEditingController();
 
   List<String> _frequencyOptions = ['Once', 'Twice', 'Three Times', 'Four Times'];
+
   String _selectedFrequency = 'Once';
   List<String> _timesOfDayOptions = ['Morning', 'Afternoon', 'Evening', 'Night'];
   List<String> _selectedTimes = [];
 
   @override
-  void initState() {
-    super.initState();
-    _medicineNameController = TextEditingController(text: widget.medicine.name);
-    _dosageController = TextEditingController(text: widget.medicine.dosage);
-    _startDateController = TextEditingController(text: widget.medicine.start_date);
-    _endDateController = TextEditingController(text: widget.medicine.end_date);
-    _instructionsController = TextEditingController(text: widget.medicine.instructions);
-    medicationId = widget.medicine.id;
-    _selectedFrequency = widget.medicine.frequency;
-    _selectedTimes = widget.medicine.times_of_day.split(', ');
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Medicine'),
+        title: Text("Medication"),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right:8.0),
@@ -66,38 +51,37 @@ class _EditMedicineScreenState extends State<EditMedicineScreen> {
           ),
         ],
       ),
-     body: SingleChildScrollView(
-      child:Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: Padding(
+        padding: EdgeInsets.all(12.0),
+        child: ListView(
           children: [
             CustomTextField(
               controller: _medicineNameController,
               label: 'Medicine Name',
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             CustomTextField(
               controller: _dosageController,
               label: 'Dosage',
+              keyboardType: TextInputType.emailAddress,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             buildFrequencyDropdown(),
-            SizedBox(height: 18),
+            SizedBox(height: 15),
             buildDateFormField("Start Date", _startDateController),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             buildDateFormField("End Date", _endDateController),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             buildTimesOfDayDropdown(),
-            SizedBox(height: 16),
+            SizedBox(height: 15),
             CustomTextField(
               controller: _instructionsController,
               label: 'Instructions',
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 15 ),
             Center(
               child: ElevatedButton(
-                onPressed: _updateMedicine,
+                onPressed: _saveMedication,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff8cccff),
                   shape: RoundedRectangleBorder(
@@ -106,7 +90,7 @@ class _EditMedicineScreenState extends State<EditMedicineScreen> {
                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 80),
                 ),
                 child: Text(
-                  "Update",
+                  "Add",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -119,11 +103,10 @@ class _EditMedicineScreenState extends State<EditMedicineScreen> {
           ],
         ),
       ),
-    ),
     );
   }
 
-Widget buildFrequencyDropdown() {
+ Widget buildFrequencyDropdown() {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(15),
@@ -139,13 +122,12 @@ Widget buildFrequencyDropdown() {
       onChanged: (value) {
         setState(() {
           _selectedFrequency = value!;
-          // Clear the selected times of day
+          // Update the times of day options based on the selected frequency
           _selectedTimes.clear();
-          // Update the selected times of day based on the selected frequency
-          int selectedIndex = _frequencyOptions.indexOf(_selectedFrequency);
-          for (int i = 0; i <= selectedIndex; i++) {
+          for (int i = 0; i < _frequencyOptions.indexOf(_selectedFrequency) + 1; i++) {
             _selectedTimes.add(_timesOfDayOptions[i]);
           }
+          _timesOfDayController.text = _selectedTimes.join(', ');
         });
       },
       items: _frequencyOptions.map((frequency) {
@@ -159,7 +141,6 @@ Widget buildFrequencyDropdown() {
 }
 
 
-
   Widget buildTimesOfDayDropdown() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +152,7 @@ Widget buildFrequencyDropdown() {
           fontWeight: FontWeight.bold,
         ),
       ),
-      SizedBox(height: 8),
+      // SizedBox(height: 8),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: _timesOfDayOptions.map((timeOfDay) {
@@ -197,7 +178,8 @@ Widget buildFrequencyDropdown() {
   );
 }
 
-Future<void> _selectDate(TextEditingController controller) async {
+
+  Future<void> _selectDate(TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -211,62 +193,96 @@ Future<void> _selectDate(TextEditingController controller) async {
     }
   }
 
-  void _updateMedicine() {
-    String? phoneNumber;
-    try {
-      phoneNumber = user!.phoneNumber;
-    } catch (e) {
-      // Handle the case where the phone number is not a valid integer
-      print('Invalid phone number format');
-      return;
-    }
-
-    DatabaseReference userMedicationsRef = _databaseReference.child(phoneNumber.toString()).child('Medications').child(medicationId);
-    
-    String updatedMedicineName = _medicineNameController.text;
-    String updatedDosage = _dosageController.text;
-    String updatedFrequency = _selectedFrequency;
-    String updatedStartDate = _startDateController.text;
-    String updatedEndDate = _endDateController.text;
-    String updatedTimesOfDay = _selectedTimes.join(', ');
-    String updatedInstructions = _instructionsController.text;
-
-    // Construct the updated medicine object
-    Map<String, dynamic> updatedData = {
-      'medicineName': updatedMedicineName,
-      'dosage': updatedDosage,
-      'frequency': updatedFrequency,
-      'startDate': updatedStartDate,
-      'endDate': updatedEndDate,
-      'timesOfDay': updatedTimesOfDay,
-      'instructions': updatedInstructions,
-    };
-
-    // Update the medicine data in the database
-    userMedicationsRef.update(updatedData).
-      then((_) {
-      // Clear the text controllers after saving
-      _medicineNameController.clear();
-      _dosageController.clear();
-      // _selectedFrequency.clear();
-      _startDateController.clear();
-      _endDateController.clear();
-      _selectedTimes.clear();
-      _instructionsController.clear();
-
-      // Show a success message
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Medication updated successfully!'),
-      ));
-    })
-      .catchError((error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update medication: $error')),
-        );
-      });
+  void _saveMedication() {
+  // Check if any of the fields are empty
+  if (_medicineNameController.text.isEmpty ||
+      _dosageController.text.isEmpty ||
+      _startDateController.text.isEmpty ||
+      _endDateController.text.isEmpty ||
+      _selectedTimes.isEmpty ||
+      _instructionsController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Please fill in all the fields')),
+    );
+    return;
   }
 
-Widget buildDateFormField(String label, TextEditingController controller) {
+  String? phoneNumber;
+  try {
+    phoneNumber = user!.phoneNumber;
+  } catch (e) {
+    // Handle the case where the phone number is not a valid integer
+    print('Invalid phone number format');
+    return;
+  }
+
+  // Generate a relevant unique ID using timestamp and medication name
+  String medicationId = DateTime.now().microsecond.toString();
+
+  DatabaseReference userMedicationsRef = databaseReference.child(phoneNumber.toString()).child('Medications').child(medicationId);
+
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Adding Medication',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(height: 20),
+              LinearProgressIndicator(
+                color: Colors.blue,
+                backgroundColor: Colors.grey.shade300,
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+
+  userMedicationsRef.set({
+    'medicineName': _medicineNameController.text,
+    'dosage': _dosageController.text,
+    'frequency': _selectedFrequency,
+    'startDate': _startDateController.text,
+    'endDate': _endDateController.text,
+    'timesOfDay': _timesOfDayController.text,
+    'instructions': _instructionsController.text,
+  }).then((_) {
+    Navigator.pop(context);
+
+    // Show a success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Medication added successfully!')),
+    );
+
+     Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ViewMedicineScreen()),
+        );
+  }).catchError((error) {
+    // Close the dialog
+    Navigator.pop(context);
+
+    // Show an error message if something goes wrong
+    print("Error saving medication: $error");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to save medication. Please try again.')),
+    );
+  });
+}
+
+  Widget buildDateFormField(String label, TextEditingController controller) {
     return GestureDetector(
       onTap: () => _selectDate(controller),
       child: AbsorbPointer(
@@ -297,8 +313,10 @@ Widget buildDateFormField(String label, TextEditingController controller) {
   void dispose() {
     _medicineNameController.dispose();
     _dosageController.dispose();
+    _frequencyController.dispose();
     _startDateController.dispose();
     _endDateController.dispose();
+    _timesOfDayController.dispose();
     _instructionsController.dispose();
     super.dispose();
   }

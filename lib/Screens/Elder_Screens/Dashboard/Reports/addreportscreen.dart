@@ -2,8 +2,8 @@
 
 import 'dart:io';
 
-import 'package:Serene_Life/Screens/Patient/Dashboard/Reports/viewreportscreen.dart';
-import 'package:Serene_Life/Screens/Patient/Homescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Reports/viewreportscreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'package:Serene_Life/Screens/styles/fields.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
