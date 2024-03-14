@@ -43,6 +43,7 @@ class _EditMedicineScreenState extends State<EditMedicineScreen> {
     _startDateController = TextEditingController(text: widget.medicine.start_date);
     _endDateController = TextEditingController(text: widget.medicine.end_date);
     _instructionsController = TextEditingController(text: widget.medicine.instructions);
+    _timesOfDayController = TextEditingController();
     medicationId = widget.medicine.id;
     _selectedFrequency = widget.medicine.frequency;
     _selectedTimes = widget.medicine.times_of_day.split(', ');
@@ -154,9 +155,7 @@ Widget buildFrequencyDropdown() {
       onChanged: (value) {
         setState(() {
           _selectedFrequency = value!;
-          // Clear the selected times of day
           _selectedTimes.clear();
-          // Update the selected times of day based on the selected frequency
           int selectedIndex = _frequencyOptions.indexOf(_selectedFrequency);
           for (int i = 0; i <= selectedIndex; i++) {
             _selectedTimes.add(_timesOfDayOptions[i]);
@@ -173,9 +172,7 @@ Widget buildFrequencyDropdown() {
   );
 }
 
-
-
-  Widget buildTimesOfDayDropdown() {
+Widget buildTimesOfDayDropdown() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -190,27 +187,32 @@ Widget buildFrequencyDropdown() {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: _timesOfDayOptions.map((timeOfDay) {
+          bool isChecked = _selectedTimes.contains(timeOfDay);
+          int selectedFrequencyIndex = _frequencyOptions.indexOf(_selectedFrequency);
+          int timeOfDayIndex = _timesOfDayOptions.indexOf(timeOfDay);
+          int maxAllowedSelections = selectedFrequencyIndex + 1;
+          bool isEnabled = timeOfDayIndex <= maxAllowedSelections - 1;
           return CheckboxListTile(
             title: Text(timeOfDay),
-            value: _selectedTimes.contains(timeOfDay),
-            onChanged: (value) {
+            value: isChecked,
+            onChanged: isEnabled ? (value) {
               setState(() {
                 if (value != null && value) {
-                  if (_selectedTimes.length < _frequencyOptions.indexOf(_selectedFrequency) + 1) {
-                    _selectedTimes.add(timeOfDay);
-                  }
+                  _selectedTimes.add(timeOfDay);
                 } else {
                   _selectedTimes.remove(timeOfDay);
                 }
                 _timesOfDayController.text = _selectedTimes.join(', ');
               });
-            },
+            } : null, // Disable checkbox if the time of day exceeds the maximum allowed selections
           );
         }).toList(),
       ),
     ],
   );
 }
+
+
 
 Future<void> _selectDate(TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
@@ -227,6 +229,34 @@ Future<void> _selectDate(TextEditingController controller) async {
   }
 
   void _updateMedicine() {
+    showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Updating..',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              const SizedBox(height: 20),
+              LinearProgressIndicator(
+                color: Colors.blue, // Customize color if needed
+                backgroundColor: Colors.grey[200], // Customize background color if needed
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 
     DatabaseReference userMedicationsRef = _databaseReference.child(phoneNumber.toString()).child('Medications').child(medicationId);
     

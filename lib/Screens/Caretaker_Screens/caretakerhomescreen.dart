@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart' as RegistrationScreen;
 import 'package:Serene_Life/Screens/Patient/profilescreen.dart';
-
+import 'Caretaker_Dashboard/Excercises/viewexercisescreen.dart';
 import 'Caretaker_Dashboard/Medication/viewmedicationscreen.dart';
 
 class CaretakerHomeScreen extends StatefulWidget {
@@ -56,7 +56,7 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
                   itemDashboard('Patient', Icons.person_2, Colors.green),
                   itemDashboard('Reports', Icons.description, Colors.purple),
                   itemDashboard('Nutrition', Icons.local_dining, Colors.indigo),
-                  itemDashboard('Relaxation', Icons.spa, Colors.teal),
+                  itemDashboard('Exercises', Icons.spa, Colors.teal),
                 ],
               ),
             ),
@@ -128,6 +128,13 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ReportScreen(),
+          ),
+        );
+      }
+      if (title == 'Exercises') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ViewExerciseScreen(),
           ),
         );
       }

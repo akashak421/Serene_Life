@@ -11,8 +11,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     required this.controller,
     required this.label,
-    this.keyboardType = TextInputType.text,
-    this.validator,
+    this.keyboardType = TextInputType.text, this.validator,
   });
 
   @override

@@ -28,10 +28,10 @@ class _MedicationScreenState extends State<MedicationScreen> {
   TextEditingController _instructionsController = TextEditingController();
   String? phoneNumber;
 
-  List<String> _frequencyOptions = ['Once', 'Twice', 'Three Times', 'Four Times'];
+  List<String> _frequencyOptions = ['Once', 'Two Times', 'Three Times', 'Four Times'];
 
   String _selectedFrequency = 'Once';
-  List<String> _timesOfDayOptions = ['Morning', 'Afternoon', 'Evening', 'Night'];
+  List<String> _timesOfDayOptions = ['Morning','Night', 'Afternoon', 'Evening' ];
   List<String> _selectedTimes = [];
 
   @override
