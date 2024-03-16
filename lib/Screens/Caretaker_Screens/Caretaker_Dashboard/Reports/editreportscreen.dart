@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:Serene_Life/Screens/Caretaker_Screens/caretakerhomescreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../Minor screens/pageroute.dart';
 import 'viewreportscreen.dart';
 import 'package:Serene_Life/Screens/styles/fields.dart';
 import 'package:file_picker/file_picker.dart';
@@ -139,7 +140,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ReportScreen()),
+      ScaleTransitionRoute(builder: (context) => ReportScreen()),
     );
   } catch (error) {
     Navigator.pop(context);
@@ -166,7 +167,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => CaretakerHomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),

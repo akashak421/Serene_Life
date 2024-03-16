@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/PatientScreens/patientdetailscreen.dart';
 
+import '../../../Minor screens/pageroute.dart';
+
 class PatientScreen extends StatefulWidget {
   const PatientScreen({super.key});
 
@@ -229,7 +231,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
+                                      ScaleTransitionRoute(
                                         builder: (context) => PatientDetailsScreen(
                                           phoneNumber: data['senderPhoneNumber'],
                                         ),

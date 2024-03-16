@@ -12,6 +12,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../Minor screens/pageroute.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -260,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     try {
       await _auth.signOut();
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
+        ScaleTransitionRoute(
           builder: (context) => RegistrationScreen.RegisterScreen(),
         ),
       );

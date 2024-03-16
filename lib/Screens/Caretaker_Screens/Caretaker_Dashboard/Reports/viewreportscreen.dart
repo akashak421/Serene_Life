@@ -2,9 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../Minor screens/pageroute.dart';
 import 'addreportscreen.dart';
 import 'editreportscreen.dart';
-import 'package:Serene_Life/Screens/webview.dart';
+import 'package:Serene_Life/Screens/Minor%20screens/webview.dart';
 import '../../caretakerhomescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,7 +74,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
         if (downloadUrl == report.fileUrl) {
           Navigator.pop(context);
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).push(ScaleTransitionRoute(
               builder: (context) => PdfViewPage(pdfUrl: downloadUrl)));
           return;
         }
@@ -102,7 +103,7 @@ class _ReportScreenState extends State<ReportScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => CaretakerHomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),
@@ -198,7 +199,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           trailing: IconButton(
                             icon: Icon(Icons.edit),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).push(ScaleTransitionRoute(
                                   builder: (context) =>
                                       EditReportScreen(report: report)));
                             },
@@ -217,7 +218,7 @@ class _ReportScreenState extends State<ReportScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddReportScreen()),
+            ScaleTransitionRoute(builder: (context) => AddReportScreen()),
           );
         },
         child: Icon(Icons.add),

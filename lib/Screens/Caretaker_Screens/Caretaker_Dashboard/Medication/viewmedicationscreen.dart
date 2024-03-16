@@ -3,6 +3,7 @@
 import 'package:Serene_Life/Screens/Caretaker_Screens/caretakerhomescreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../Minor screens/pageroute.dart';
 import 'editmedicationscreen.dart';
 import 'addmedicationscreen.dart';
 import 'medicinedetailscreen.dart';
@@ -74,7 +75,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => CaretakerHomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),
@@ -151,7 +152,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            ScaleTransitionRoute(
                               builder: (context) => MedicineDetailsScreen(medicine: medicine),
                             ),
                           );
@@ -161,7 +162,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              ScaleTransitionRoute(
                                 builder: (context) => EditMedicineScreen(medicine: medicine),
                               ),
                             );
@@ -180,7 +181,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MedicationScreen()),
+            ScaleTransitionRoute(builder: (context) => MedicationScreen()),
           );
         },
         child: Icon(Icons.add),

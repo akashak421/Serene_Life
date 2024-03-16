@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../Minor screens/pageroute.dart';
 import '../../caretakerhomescreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -112,7 +113,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
           // Navigate to ReportScreen
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ReportScreen()),
+            ScaleTransitionRoute(builder: (context) => ReportScreen()),
           );
         }).catchError((error) {
           Navigator.pop(context); // Close the progress dialog
@@ -148,7 +149,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => CaretakerHomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),

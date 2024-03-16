@@ -11,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+import '../../../Minor screens/pageroute.dart';
+
 class EditReportScreen extends StatefulWidget {
   final Report report;
 
@@ -126,7 +128,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ReportScreen()),
+      ScaleTransitionRoute(builder: (context) => ReportScreen()),
     );
   } catch (error) {
     Navigator.pop(context);
@@ -153,7 +155,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => HomeScreen()),
                 );
               },
             ),

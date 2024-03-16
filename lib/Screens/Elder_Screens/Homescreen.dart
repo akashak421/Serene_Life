@@ -1,16 +1,16 @@
-// ignore_for_file: prefer_const_constructors, file_names, library_prefixes, use_build_context_synchronously, avoid_print
-import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Medication/viewmedicationscreen.dart';
-import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Reports/viewreportscreen.dart';
-import 'package:Serene_Life/Screens/Elder_Screens/caretakerscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart' as RegistrationScreen;
 import 'package:Serene_Life/Screens/Elder_Screens/profilescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Medication/viewmedicationscreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Reports/viewreportscreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/caretakerscreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Exercises/viewexercisescreen.dart';
 
-import 'Dashboard/Exercises/viewexercisescreen.dart';
+import '../Minor screens/pageroute.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,16 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Serene Life",style: TextStyle(
-      fontSize: 30, // Adjust the font size as needed
-      fontWeight: FontWeight.bold,),
-      ),
-      centerTitle: true,
+        title: const Text(
+          "Serene Life",
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () async {
-              // Call the logout function and navigate to RegisterScreen
               await logoutAndNavigateToRegistration(context);
             },
           ),
@@ -47,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Color.fromARGB(255, 255, 255, 255),
               ),
               child: GridView.count(
                 shrinkWrap: true,
@@ -71,8 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(),
+                  ScaleTransitionRoute(
+                    builder: (context) => const ProfileScreen(),
                   ),
                 );
               },
@@ -81,9 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               ),
-              child: Text(
+              child: const Text(
                 "Create Profile",
                 style: TextStyle(
                   color: Colors.white,
@@ -100,84 +102,99 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-Future<void> logoutAndNavigateToRegistration(BuildContext context) async {
+  Future<void> logoutAndNavigateToRegistration(BuildContext context) async {
     try {
-      await _auth.signOut(); // Sign out the current user
-      // Navigate to RegisterScreen
+      await _auth.signOut();
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => RegistrationScreen.RegisterScreen(),
+        ScaleTransitionRoute(
+          builder: (context) => const RegistrationScreen.RegisterScreen(),
         ),
       );
     } catch (e) {
       print("Error during logout: $e");
-      // Handle the error, if any
     }
   }
 
-  itemDashboard(String title, IconData iconData, Color background) => GestureDetector(
-    onTap: () {
-      if (title == 'Medication') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ViewMedicineScreen(),
-          ),
-        );
-      }
-      if (title == 'Reports') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ReportScreen(),
-          ),
-        );
-      }
-       if (title == 'Caretaker') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => CaretakerListScreen(),
-          ),
-        );
-       }
-       if (title == 'Exercises') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ViewExerciseScreen(),
-          ),
-        );
-       }
-    },
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 5),
-            color: Theme.of(context).primaryColor.withOpacity(.2),
-            spreadRadius: 3,
-            blurRadius: 5,
-          )
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: background,
-              shape: BoxShape.circle,
+  Widget itemDashboard(String title, IconData iconData, Color background) {
+    return InkWell(
+      onTap: () {
+        _navigateToScreen(title);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 3),
+              blurRadius: 6,
+              color: Colors.black.withOpacity(0.1),
             ),
-            child: Icon(
-              iconData,
-              color: Colors.white,
-              size: 35,
-            ),
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              background.withOpacity(0.7),
+              background.withOpacity(0.5),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(title.toUpperCase(), style: Theme.of(context).textTheme.titleMedium),
-        ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(0, 3),
+                    blurRadius: 6,
+                    color: Colors.black.withOpacity(0.1),
+                  ),
+                ],
+              ),
+              child: Icon(
+                iconData,
+                color: background,
+                size: 35,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              title.toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
+
+  void _navigateToScreen(String title) {
+    late Widget screen;
+    switch (title) {
+      case 'Caretaker':
+        screen = CaretakerListScreen();
+        break;
+      case 'Medication':
+        screen = const ViewMedicineScreen();
+        break;
+      case 'Reports':
+        screen = const ReportScreen();
+        break;
+      case 'Exercises':
+        screen = const ViewExerciseScreen();
+        break;
+      default:
+        return;
+    }
+    Navigator.of(context).push(ScaleTransitionRoute(builder: (context) => screen));
+  }
 }
+

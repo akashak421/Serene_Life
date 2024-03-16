@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../Minor screens/pageroute.dart';
+
 class CaretakerListScreen extends StatefulWidget {
   @override
   _CaretakerListScreenState createState() => _CaretakerListScreenState();
@@ -28,7 +30,7 @@ class _CaretakerListScreenState extends State<CaretakerListScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => HomeScreen()),
                 );
               },
             ),
@@ -268,7 +270,7 @@ class _CaretakerListScreenState extends State<CaretakerListScreen> {
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(
-                                    MaterialPageRoute(
+                                    ScaleTransitionRoute(
                                       builder: (context) =>
                                           CaretakerdetailsScreen(user: user),
                                     ),

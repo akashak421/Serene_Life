@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Minor screens/pageroute.dart';
+
 class Exercise {
   final String name;
   final String duration;
@@ -59,7 +61,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
+                  ScaleTransitionRoute(
                       builder: (context) => const CaretakerHomeScreen()),
                 );
               },

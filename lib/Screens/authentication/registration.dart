@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
+
+import '../Minor screens/pageroute.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -207,14 +209,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           });
 
           Navigator.of(context).push(
-            MaterialPageRoute(
+            ScaleTransitionRoute(
               builder: (context) => OTPScreen(
                 verificationId: verificationId,
                 phoneNumber: countrydial + phoneController.text,
                 isCaretaker: isCaretaker,
                 onVerificationComplete: () {
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
+                    ScaleTransitionRoute(
                       builder: (context) => HomeScreen(),
                     ),
                   );

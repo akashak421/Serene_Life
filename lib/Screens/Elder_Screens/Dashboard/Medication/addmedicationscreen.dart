@@ -7,6 +7,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Medication/viewmedicationscreen.dart';
 import 'package:Serene_Life/Screens/styles/fields.dart';
 
+import '../../../Minor screens/pageroute.dart';
+
 class MedicationScreen extends StatefulWidget {
   const MedicationScreen({super.key});
 
@@ -44,7 +46,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => HomeScreen()),
                 );
               },
             ),
@@ -268,7 +270,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
 
      Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ViewMedicineScreen()),
+          ScaleTransitionRoute(builder: (context) => ViewMedicineScreen()),
         );
   }).catchError((error) {
     // Close the dialog

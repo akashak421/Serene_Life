@@ -9,6 +9,8 @@ import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../Minor screens/pageroute.dart';
+
 class OTPScreen extends StatefulWidget {
   String verificationId;
   bool isCaretaker;
@@ -106,13 +108,13 @@ class _OTPScreenState extends State<OTPScreen> {
           await saveUserDetails(user.phoneNumber!);
           if (widget.isCaretaker) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
+              ScaleTransitionRoute(
                 builder: (context) => CaretakerHomeScreen(),
               ),
             );
           } else {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
+              ScaleTransitionRoute(
                 builder: (context) => HomeScreen(),
               ),
             );
@@ -133,13 +135,13 @@ class _OTPScreenState extends State<OTPScreen> {
           );
           if (isCaretaker) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
+              ScaleTransitionRoute(
                 builder: (context) => CaretakerHomeScreen(),
               ),
             );
           } else {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
+              ScaleTransitionRoute(
                 builder: (context) => HomeScreen(),
               ),
             );

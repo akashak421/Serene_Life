@@ -1,12 +1,12 @@
-// ignore_for_file: library_prefixes, prefer_const_constructors, use_build_context_synchronously, avoid_print
+// ignore_for_file: library_prefixes, use_build_context_synchronously, avoid_print
 
-// import 'package:Serene_Life/Screens/Patient/notification.dart';
-import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/PatientScreens/patientscreen.dart';
-import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/Reports/viewreportscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart' as RegistrationScreen;
+import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/PatientScreens/patientscreen.dart';
+import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/Reports/viewreportscreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/profilescreen.dart';
+import '../Minor screens/pageroute.dart';
 import 'Caretaker_Dashboard/Excercises/viewexercisescreen.dart';
 import 'Caretaker_Dashboard/Medication/viewmedicationscreen.dart';
 
@@ -24,10 +24,10 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Serene Life"),
+        title: const Text("Serene Life"),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () async {
               await logoutAndNavigateToRegistration(context);
             },
@@ -53,7 +53,7 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
                 mainAxisSpacing: 40,
                 children: [
                   itemDashboard('Medication', Icons.medication, Colors.deepOrange),
-                  itemDashboard('Patient', Icons.person_2, Colors.green),
+                  itemDashboard('Patient', Icons.person, Colors.green),
                   itemDashboard('Reports', Icons.description, Colors.purple),
                   itemDashboard('Nutrition', Icons.local_dining, Colors.indigo),
                   itemDashboard('Exercises', Icons.spa, Colors.teal),
@@ -66,8 +66,8 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
             child: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(),
+                  ScaleTransitionRoute(
+                    builder: (context) => const ProfileScreen(),
                   ),
                 );
               },
@@ -76,9 +76,9 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               ),
-              child: Text(
+              child: const Text(
                 "Create Profile",
                 style: TextStyle(
                   color: Colors.white,
@@ -99,8 +99,8 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
     try {
       await _auth.signOut();
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => RegistrationScreen.RegisterScreen(),
+        ScaleTransitionRoute(
+          builder: (context) => const RegistrationScreen.RegisterScreen(),
         ),
       );
     } catch (e) {
@@ -108,69 +108,86 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
     }
   }
 
-  itemDashboard(String title, IconData iconData, Color background) => GestureDetector(
-    onTap: () {
-      if (title == 'Patient') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => PatientScreen(),
-          ),
-        );
-      }
-      if (title == 'Medication') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ViewMedicineScreen(),
-          ),
-        );
-      }
-      if (title == 'Reports') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ReportScreen(),
-          ),
-        );
-      }
-      if (title == 'Exercises') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ViewExerciseScreen(),
-          ),
-        );
-      }
-    },
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 5),
-            color: Theme.of(context).primaryColor.withOpacity(.2),
-            spreadRadius: 3,
-            blurRadius: 5,
-          )
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: background,
-              shape: BoxShape.circle,
+  Widget itemDashboard(String title, IconData iconData, Color background) {
+    return InkWell(
+      onTap: () {
+        _navigateToScreen(title);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 3),
+              blurRadius: 6,
+              color: Colors.black.withOpacity(0.1),
             ),
-            child: Icon(
-              iconData,
-              color: Colors.white,
-              size: 35,
-            ),
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              background.withOpacity(0.7),
+              background.withOpacity(0.5),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(title.toUpperCase(), style: Theme.of(context).textTheme.titleMedium),
-        ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(0, 3),
+                    blurRadius: 6,
+                    color: Colors.black.withOpacity(0.1),
+                  ),
+                ],
+              ),
+              child: Icon(
+                iconData,
+                color: background,
+                size: 35,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              title.toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
+
+  void _navigateToScreen(String title) {
+    late Widget screen;
+    switch (title) {
+      case 'Patient':
+        screen = const PatientScreen();
+        break;
+      case 'Medication':
+        screen = const ViewMedicineScreen();
+        break;
+      case 'Reports':
+        screen = const ReportScreen();
+        break;
+      case 'Exercises':
+        screen = const ViewExerciseScreen();
+        break;
+      default:
+        // Default case
+        return;
+    }
+    Navigator.of(context).push(ScaleTransitionRoute(builder: (context) => screen));
+  }
 }

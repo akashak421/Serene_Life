@@ -9,7 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart';
-import 'package:Serene_Life/Screens/splashscreen.dart';
+import 'package:Serene_Life/Screens/Minor%20screens/splashscreen.dart';
 import 'package:Serene_Life/firebase_options.dart';
 
 import 'Screens/Caretaker_Screens/caretakerhomescreen.dart';

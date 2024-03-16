@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../Minor screens/pageroute.dart';
 import '../../caretakerhomescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,7 +66,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => CaretakerHomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),
@@ -279,7 +280,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
 
      Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ViewMedicineScreen()),
+          ScaleTransitionRoute(builder: (context) => ViewMedicineScreen()),
         );
   }).catchError((error) {
     // Close the dialog

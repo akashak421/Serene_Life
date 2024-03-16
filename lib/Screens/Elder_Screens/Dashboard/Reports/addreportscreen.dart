@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import '../../../Minor screens/pageroute.dart';
+
 class AddReportScreen extends StatefulWidget {
   @override
   _AddReportScreenState createState() => _AddReportScreenState();
@@ -106,7 +108,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
           // Navigate to ReportScreen
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ReportScreen()),
+            ScaleTransitionRoute(builder: (context) => ReportScreen()),
           );
         }).catchError((error) {
           Navigator.pop(context); // Close the progress dialog
@@ -142,7 +144,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => HomeScreen()),
                 );
               },
             ),

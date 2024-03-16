@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last
 
 import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
+import '../../../Minor screens/pageroute.dart';
 import 'editmedicationscreen.dart';
 import 'addmedicationscreen.dart';
 import 'medicinedetailscreen.dart';
@@ -63,7 +64,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => HomeScreen()),
                 );
               },
             ),
@@ -140,7 +141,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            ScaleTransitionRoute(
                               builder: (context) => MedicineDetailsScreen(medicine: medicine),
                             ),
                           );
@@ -150,7 +151,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              ScaleTransitionRoute(
                                 builder: (context) => EditMedicineScreen(medicine: medicine),
                               ),
                             );
@@ -169,7 +170,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MedicationScreen()),
+            ScaleTransitionRoute(builder: (context) => MedicationScreen()),
           );
         },
         child: Icon(Icons.add),

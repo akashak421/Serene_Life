@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../Minor screens/pageroute.dart';
 import '../../caretakerhomescreen.dart';
 // import 'view_exercise_screen.dart';
 import 'package:Serene_Life/Screens/styles/fields.dart';
@@ -56,7 +57,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const CaretakerHomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => const CaretakerHomeScreen()),
                 );
               },
             ),
@@ -167,7 +168,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
 
       // Navigator.pushReplacement(
       //   context,
-      //   // MaterialPageRoute(builder: (context) => ViewExerciseScreen()),
+      //   // ScaleTransitionRoute(builder: (context) => ViewExerciseScreen()),
       // );
     }).catchError((error) {
       // Close the dialog

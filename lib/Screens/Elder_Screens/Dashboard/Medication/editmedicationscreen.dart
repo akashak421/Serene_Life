@@ -7,6 +7,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:Serene_Life/Screens/styles/fields.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Medication/viewmedicationscreen.dart';
 
+import '../../../Minor screens/pageroute.dart';
+
 class EditMedicineScreen extends StatefulWidget {
   final Medicine medicine;
 
@@ -59,7 +61,7 @@ class _EditMedicineScreenState extends State<EditMedicineScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => HomeScreen()),
                 );
               },
             ),

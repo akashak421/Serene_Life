@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import '../../../Minor screens/pageroute.dart';
 import 'addexercises.dart';
 import 'package:Serene_Life/Screens/Caretaker_Screens/caretakerhomescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,7 +65,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const CaretakerHomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => const CaretakerHomeScreen()),
                 );
               },
             ),
@@ -134,7 +135,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            ScaleTransitionRoute(
                               builder: (context) => EditExerciseScreen(exercise: exercise),
                             ),
                           );
@@ -152,7 +153,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddExerciseScreen()),
+            ScaleTransitionRoute(builder: (context) => const AddExerciseScreen()),
           );
         },
         backgroundColor: const Color(0xff8cccff),

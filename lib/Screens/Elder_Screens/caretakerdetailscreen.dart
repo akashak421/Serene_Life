@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../Minor screens/pageroute.dart';
 import 'Homescreen.dart';
 
 class CaretakerdetailsScreen extends StatefulWidget {
@@ -104,7 +105,7 @@ class _CaretakerdetailsScreenState extends State<CaretakerdetailsScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  ScaleTransitionRoute(builder: (context) => HomeScreen()),
                 );
               },
             ),

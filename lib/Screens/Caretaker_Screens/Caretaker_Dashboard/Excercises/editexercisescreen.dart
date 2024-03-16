@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import '../../../Minor screens/pageroute.dart';
 import '../../../styles/fields.dart';
 import '../../caretakerhomescreen.dart';
 import 'viewexercisescreen.dart';
@@ -58,7 +59,7 @@ class _EditExerciseScreenState extends State<EditExerciseScreen> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
+                  ScaleTransitionRoute(
                       builder: (context) => const CaretakerHomeScreen()),
                 );
               },
@@ -163,7 +164,7 @@ class _EditExerciseScreenState extends State<EditExerciseScreen> {
       ));
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ViewExerciseScreen()),
+        ScaleTransitionRoute(builder: (context) => const ViewExerciseScreen()),
       );
     }).catchError((error) {
       Navigator.pop(context);
