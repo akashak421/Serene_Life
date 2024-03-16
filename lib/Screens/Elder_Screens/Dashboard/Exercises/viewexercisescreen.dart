@@ -9,14 +9,17 @@ class Exercise {
   final String duration;
   final String instructions;
   final String id;
+  bool selected;
 
   Exercise({
     required this.name,
     required this.duration,
     required this.instructions,
     required this.id,
+    this.selected = false,
   });
 }
+
 class ViewExerciseScreen extends StatefulWidget {
   const ViewExerciseScreen({super.key});
 
@@ -26,7 +29,7 @@ class ViewExerciseScreen extends StatefulWidget {
 
 class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
   late DatabaseReference dbRef;
-  late Future<DataSnapshot>  _fetchDataFuture;
+  late Future<DataSnapshot> _fetchDataFuture;
   final User? user = FirebaseAuth.instance.currentUser;
 
   @override
@@ -36,7 +39,10 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
   }
 
   Future<DataSnapshot> fetchdetails() async {
-      dbRef = FirebaseDatabase.instance.ref().child(user!.phoneNumber.toString()).child('Exercises');
+    dbRef = FirebaseDatabase.instance
+        .ref()
+        .child(user!.phoneNumber.toString())
+        .child('Exercises');
     return dbRef.once().then((event) => event.snapshot);
   }
 
@@ -47,13 +53,14 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
         title: const Text('View Exercises'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right:8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               icon: const Icon(Icons.home),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const CaretakerHomeScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const CaretakerHomeScreen()),
                 );
               },
             ),
@@ -61,16 +68,17 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
         ],
       ),
       body: FutureBuilder<DataSnapshot>(
-      future: _fetchDataFuture,
-      builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.value == null) {
-          return const Center(child: Text('No data available'));
-        } else {
-            final Map<dynamic, dynamic>? exercisesData = snapshot.data!.value as Map<dynamic, dynamic>?;
+        future: _fetchDataFuture,
+        builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.value == null) {
+            return const Center(child: Text('No data available'));
+          } else {
+            final Map<dynamic, dynamic>? exercisesData =
+                snapshot.data!.value as Map<dynamic, dynamic>?;
 
             if (exercisesData == null) {
               return const Center(child: Text('No exercise data available'));
@@ -81,10 +89,11 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
             exercisesData.forEach((key, value) {
               String exerciseId = key.toString();
               Exercise exercise = Exercise(
-                id :exerciseId,
+                id: exerciseId,
                 name: value['exerciseName'].toString(),
-                duration:value['duration']?? '',
-                instructions : value['instructions'] ?? '',
+                duration: value['duration'] ?? '',
+                instructions: value['instructions'] ?? '',
+                selected: false,
               );
               exercises.add(exercise);
             });
@@ -95,15 +104,18 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
                 Exercise exercise = exercises[index];
 
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6.0), // Add vertical padding between cards
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 6.0), // Add vertical padding between cards
                   child: Card(
                     elevation: 4,
                     color: Colors.blue.shade100,
-                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: ListTile(
                       title: Text(
                         exercise.name,
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +130,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
                           ),
                         ],
                       ),
-                    ),
+                     ),
                   ),
                 );
               },
