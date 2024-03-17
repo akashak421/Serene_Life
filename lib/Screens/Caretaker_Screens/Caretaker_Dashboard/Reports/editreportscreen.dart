@@ -36,7 +36,8 @@ class _EditReportScreenState extends State<EditReportScreen> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.report.title);
-    _descriptionController = TextEditingController(text: widget.report.description);
+    _descriptionController =
+        TextEditingController(text: widget.report.description);
     _getUserProfile(); // Call _getUserProfile to fetch user profile
     _fileName = _getCleanFileName(widget.report.fileUrl);
     newfileUrl = widget.report.fileUrl;
@@ -51,7 +52,10 @@ class _EditReportScreenState extends State<EditReportScreen> {
         .get();
     setState(() {
       partnerPhoneNumber = userProfile['partnerPhoneNumber'];
-      dbRef = FirebaseDatabase.instance.ref().child(partnerPhoneNumber.toString()).child('Reports');
+      dbRef = FirebaseDatabase.instance
+          .ref()
+          .child(partnerPhoneNumber.toString())
+          .child('Reports');
     });
   }
 
@@ -59,7 +63,9 @@ class _EditReportScreenState extends State<EditReportScreen> {
     String fileName = fileUrl.split('/').last.replaceAll('%20', ' ');
     fileName = fileName.replaceAll('%2F', '');
     final start = fileName.startsWith('reports') ? 'reports'.length : 0;
-    final end = fileName.indexOf('?') >= 0 ? fileName.indexOf('?') : fileName.indexOf('token');
+    final end = fileName.indexOf('?') >= 0
+        ? fileName.indexOf('?')
+        : fileName.indexOf('token');
     return fileName.substring(start, end);
   }
 
@@ -71,7 +77,8 @@ class _EditReportScreenState extends State<EditReportScreen> {
         _fileName = result.files.single.name;
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No file selected')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('No file selected')));
     }
   }
 
@@ -85,74 +92,73 @@ class _EditReportScreenState extends State<EditReportScreen> {
   }
 
   Future<void> _updateReport() async {
-
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Uploading Report',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Uploading Report',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              LinearProgressIndicator(
-                color: Colors.blue, // Customize color if needed
-                backgroundColor: Colors.grey[200], // Customize background color if needed
-              ),
-            ],
+                SizedBox(height: 20),
+                LinearProgressIndicator(
+                  color: Colors.blue, // Customize color if needed
+                  backgroundColor:
+                      Colors.grey[200], // Customize background color if needed
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    },
-  );
-  if (_filePath != null) {
-
-    firebase_storage.TaskSnapshot task = await firebase_storage.FirebaseStorage.instance
-        .ref('reports')
-        .child(_fileName)
-        .putFile(File(_filePath!));
-
-    String downloadUrl = await task.ref.getDownloadURL();
-
-    newfileUrl = downloadUrl;
-  }
-
-
-  try {
-    await dbRef.child(widget.report.id).update({
-      'title': _titleController.text,
-      'description': _descriptionController.text,
-      'fileUrl': newfileUrl,
-    });
-
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Report updated successfully')));
-
-
-    Navigator.push(
-      context,
-      ScaleTransitionRoute(builder: (context) => ReportScreen()),
+        );
+      },
     );
-  } catch (error) {
-    Navigator.pop(context);
-    print('Error updating report: $error');
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to update report')));
-  } finally {
-    setState(() {
-      _isLoading = false;
-    });
-  }
-}
+    if (_filePath != null) {
+      firebase_storage.TaskSnapshot task = await firebase_storage
+          .FirebaseStorage.instance
+          .ref('reports')
+          .child(_fileName)
+          .putFile(File(_filePath!));
 
+      String downloadUrl = await task.ref.getDownloadURL();
+
+      newfileUrl = downloadUrl;
+    }
+
+    try {
+      await dbRef.child(widget.report.id).update({
+        'title': _titleController.text,
+        'description': _descriptionController.text,
+        'fileUrl': newfileUrl,
+      });
+
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Report updated successfully')));
+
+      Navigator.push(
+        context,
+        ScaleTransitionRoute(builder: (context) => ReportScreen()),
+      );
+    } catch (error) {
+      Navigator.pop(context);
+      print('Error updating report: $error');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Failed to update report')));
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,13 +167,14 @@ class _EditReportScreenState extends State<EditReportScreen> {
         title: Text('Edit Report'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right:8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  ScaleTransitionRoute(builder: (context) => CaretakerHomeScreen()),
+                  ScaleTransitionRoute(
+                      builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),
@@ -192,7 +199,7 @@ class _EditReportScreenState extends State<EditReportScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16.0),
+                  SizedBox(height: 50.0),
                   CustomTextField(
                     controller: _descriptionController,
                     label: 'Description',
@@ -205,45 +212,52 @@ class _EditReportScreenState extends State<EditReportScreen> {
                     },
                   ),
                   SizedBox(height: 16.0),
-                  Text(_fileName.isEmpty ? 'File: ${_getCleanFileName(widget.report.fileUrl)}' : 'File: $_fileName'),
-                  SizedBox(height: 16.0),
+                  Text(_fileName.isEmpty
+                      ? 'File: ${_getCleanFileName(widget.report.fileUrl)}'
+                      : 'File: $_fileName'),
+                  SizedBox(height: 40.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
                         onPressed: _selectFile,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff8cccff),
+                          backgroundColor:
+                              Colors.blue, // Change button background color
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 30),
                         ),
-                        child: Text('Select File',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
+                        child: Text(
+                          'Select File',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
                         ),
-                      ),
                       ),
                       ElevatedButton(
                         onPressed: _clearFields,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor:
+                              Colors.red, // Change button background color
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 30),
                         ),
                         child: Text(
-                        "Clear Fields",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
+                          'Clear Fields',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
                         ),
-                      ),
                       ),
                     ],
                   ),
@@ -252,11 +266,12 @@ class _EditReportScreenState extends State<EditReportScreen> {
                     child: ElevatedButton(
                       onPressed: _updateReport,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff8cccff),
+                        backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 16, horizontal: 30),
                       ),
                       child: Text(
                         "Update Report",

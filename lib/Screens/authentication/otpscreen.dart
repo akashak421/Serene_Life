@@ -62,7 +62,7 @@ class _OTPScreenState extends State<OTPScreen> {
       {
         'isCaretaker': widget.isCaretaker,
         'token': _fcmToken,
-        'assigned' :'false',
+        'assigned': 'false',
       },
       SetOptions(merge: true),
     );
@@ -129,7 +129,7 @@ class _OTPScreenState extends State<OTPScreen> {
               .set(
             {
               'token': _fcmToken,
-              'assigned' :'false',
+              'assigned': 'false',
             },
             SetOptions(merge: true),
           );
@@ -331,8 +331,7 @@ class _OTPScreenState extends State<OTPScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   color: isResendEnabled && !isResendingOTP
-                      ? const Color(
-                          0xff8cccff) // Same blue color as in RegisterScreen
+                      ? Colors.blue // Adjust color as needed
                       : Colors.grey,
                   borderRadius: BorderRadius.circular(50),
                 ),
@@ -363,7 +362,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             GestureDetector(
               onTap: (isVerifyingOTP || resendTimeout <= 0)
                   ? null
@@ -379,7 +378,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     },
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xff8cccff),
+                  color: Colors.blue, // Adjust color as needed
                   borderRadius: BorderRadius.circular(50),
                 ),
                 padding: EdgeInsets.symmetric(vertical: 13, horizontal: 50),

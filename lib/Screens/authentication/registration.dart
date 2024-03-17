@@ -45,7 +45,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: screenHeight,
+          height: screenHeight -
+              MediaQuery.of(context).padding.top, // Adjusted height
           width: screenWidth,
           child: Stack(
             children: [
@@ -87,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 45),
                       Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
+                        margin: EdgeInsets.symmetric(horizontal: 20),
                         child: IntlPhoneField(
                           controller: phoneController,
                           showCountryFlag: false,
@@ -110,9 +111,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
                       Row(
                         children: [
+                          SizedBox(width: 20),
                           Radio(
                             value: true,
                             groupValue: isCaretaker,
@@ -123,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                           ),
                           Text('Caretaker'),
-                          SizedBox(width: 20),
+                          SizedBox(width: 80),
                           Radio(
                             value: false,
                             groupValue: isCaretaker,
@@ -136,26 +137,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Text('Not a Caretaker'),
                         ],
                       ),
+                      SizedBox(height: 20,),
                       GestureDetector(
                         onTap: () {
                           if (phoneController.text.isEmpty) {
                             showSnackBarText("Phone number is still empty");
                           } else {
-                            // Set loading state
                             setState(() {
                               isSendingOtp = true;
                             });
-
-                            // Perform the action
                             verifyPhone(countrydial + phoneController.text);
                           }
                         },
                         child: Container(
                           height: 50,
-                          width: screenWidth / 1.5,
-                          margin: EdgeInsets.only(bottom: screenHeight / 10),
+                          width: MediaQuery.of(context).size.width *
+                              0.8, // Adjust the width as needed
+                          // margin: EdgeInsets.only(bottom: 20),
                           decoration: BoxDecoration(
-                            color: blue,
+                            color: Colors.blue,
                             borderRadius: BorderRadius.circular(50),
                           ),
                           child: Center(
@@ -165,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         Colors.white),
                                   )
                                 : Text(
-                                    "Send OTP",
+                                    "Get OTP",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -234,6 +234,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     }
   }
+
   void showSnackBarText(String text) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

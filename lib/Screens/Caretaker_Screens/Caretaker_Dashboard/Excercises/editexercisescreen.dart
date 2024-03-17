@@ -91,17 +91,16 @@ class _EditExerciseScreenState extends State<EditExerciseScreen> {
               child: ElevatedButton(
                 onPressed: _updateExercise,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff8cccff),
+                  backgroundColor: Colors.blue, // Set button background color
+                  foregroundColor: Colors.white, // Set text color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 80),
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 80),
                 ),
                 child: const Text(
                   "Update",
                   style: TextStyle(
-                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.5,
                     fontSize: 18,

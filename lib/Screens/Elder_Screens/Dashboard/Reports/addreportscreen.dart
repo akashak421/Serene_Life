@@ -104,7 +104,6 @@ class _AddReportScreenState extends State<AddReportScreen> {
           Navigator.pop(context); // Close the progress dialog
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Report uploaded successfully')));
-          
           // Navigate to ReportScreen
           Navigator.push(
             context,
@@ -199,44 +198,44 @@ class _AddReportScreenState extends State<AddReportScreen> {
                           SnackBar(content: Text('No file selected')));
                     }
                   },
-                   style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff8cccff),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                ),
-                child: Text(
-                  "Select Files",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 18,
+                  child: Text(
+                    "Select Files",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
                 ),
               ),
               SizedBox(height: 25.0),
               Center(
                 child: ElevatedButton(
                   onPressed: _uploadReport,
-                   style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff8cccff),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
-                ),
-                child: Text(
-                  "Upload Report",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 18,
+                  child: Text(
+                    "Upload Report",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
                 ),
               ),
             ],

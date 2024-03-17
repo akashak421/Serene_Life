@@ -27,13 +27,23 @@ class _EditMedicineScreenState extends State<EditMedicineScreen> {
   late TextEditingController _instructionsController;
   User? user = FirebaseAuth.instance.currentUser;
   final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
-  
+
   late String medicationId;
   late String? phoneNumber;
 
-  List<String> _frequencyOptions = ['Once', 'Twice', 'Three Times', 'Four Times'];
+  List<String> _frequencyOptions = [
+    'Once',
+    'Twice',
+    'Three Times',
+    'Four Times'
+  ];
   String _selectedFrequency = 'Once';
-  List<String> _timesOfDayOptions = ['Morning', 'Afternoon', 'Evening', 'Night'];
+  List<String> _timesOfDayOptions = [
+    'Morning',
+    'Afternoon',
+    'Evening',
+    'Night'
+  ];
   List<String> _selectedTimes = [];
 
   @override
@@ -41,14 +51,16 @@ class _EditMedicineScreenState extends State<EditMedicineScreen> {
     super.initState();
     _medicineNameController = TextEditingController(text: widget.medicine.name);
     _dosageController = TextEditingController(text: widget.medicine.dosage);
-    _startDateController = TextEditingController(text: widget.medicine.start_date);
+    _startDateController =
+        TextEditingController(text: widget.medicine.start_date);
     _endDateController = TextEditingController(text: widget.medicine.end_date);
-    _instructionsController = TextEditingController(text: widget.medicine.instructions);
+    _instructionsController =
+        TextEditingController(text: widget.medicine.instructions);
     _timesOfDayController = TextEditingController();
     medicationId = widget.medicine.id;
     _selectedFrequency = widget.medicine.frequency;
     _selectedTimes = widget.medicine.times_of_day.split(', ');
-  _getUserProfile(); // Call _getUserProfile to fetch user profile
+    _getUserProfile(); // Call _getUserProfile to fetch user profile
   }
 
   // Fetch user profile to get phoneNumber
@@ -70,152 +82,154 @@ class _EditMedicineScreenState extends State<EditMedicineScreen> {
         title: Text('Edit Medicine'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right:8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  ScaleTransitionRoute(builder: (context) => CaretakerHomeScreen()),
+                  ScaleTransitionRoute(
+                      builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),
           ),
         ],
       ),
-     body: SingleChildScrollView(
-      child:Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomTextField(
-              controller: _medicineNameController,
-              label: 'Medicine Name',
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              controller: _dosageController,
-              label: 'Dosage',
-            ),
-            SizedBox(height: 20),
-            buildFrequencyDropdown(),
-            SizedBox(height: 18),
-            buildDateFormField("Start Date", _startDateController),
-            SizedBox(height: 20),
-            buildDateFormField("End Date", _endDateController),
-            SizedBox(height: 20),
-            buildTimesOfDayDropdown(),
-            SizedBox(height: 16),
-            CustomTextField(
-              controller: _instructionsController,
-              label: 'Instructions',
-            ),
-            SizedBox(height: 16),
-            Center(
-              child: ElevatedButton(
-                onPressed: _updateMedicine,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff8cccff),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextField(
+                controller: _medicineNameController,
+                label: 'Medicine Name',
+              ),
+              SizedBox(height: 20),
+              CustomTextField(
+                controller: _dosageController,
+                label: 'Dosage',
+              ),
+              SizedBox(height: 20),
+              buildFrequencyDropdown(),
+              SizedBox(height: 18),
+              buildDateFormField("Start Date", _startDateController),
+              SizedBox(height: 20),
+              buildDateFormField("End Date", _endDateController),
+              SizedBox(height: 20),
+              buildTimesOfDayDropdown(),
+              SizedBox(height: 16),
+              CustomTextField(
+                controller: _instructionsController,
+                label: 'Instructions',
+              ),
+              SizedBox(height: 16),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _updateMedicine,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, // Set button background color
+                    foregroundColor: Colors.white, // Set text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 80),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 80),
-                ),
-                child: Text(
-                  "Update",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 18,
+                  child: Text(
+                    "Update",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 
-Widget buildFrequencyDropdown() {
-  return Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(15),
-      border: Border.all(color: Colors.grey.shade300),
-    ),
-    padding: EdgeInsets.symmetric(horizontal: 16),
-    child: DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: 'Frequency',
-        border: InputBorder.none,
+  Widget buildFrequencyDropdown() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey.shade300),
       ),
-      value: _selectedFrequency,
-      onChanged: (value) {
-        setState(() {
-          _selectedFrequency = value!;
-          _selectedTimes.clear();
-          int selectedIndex = _frequencyOptions.indexOf(_selectedFrequency);
-          for (int i = 0; i <= selectedIndex; i++) {
-            _selectedTimes.add(_timesOfDayOptions[i]);
-          }
-        });
-      },
-      items: _frequencyOptions.map((frequency) {
-        return DropdownMenuItem<String>(
-          value: frequency,
-          child: Text(frequency),
-        );
-      }).toList(),
-    ),
-  );
-}
-
-Widget buildTimesOfDayDropdown() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        'Times of Day:',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          labelText: 'Frequency',
+          border: InputBorder.none,
         ),
-      ),
-      SizedBox(height: 8),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: _timesOfDayOptions.map((timeOfDay) {
-          bool isChecked = _selectedTimes.contains(timeOfDay);
-          int selectedFrequencyIndex = _frequencyOptions.indexOf(_selectedFrequency);
-          int timeOfDayIndex = _timesOfDayOptions.indexOf(timeOfDay);
-          int maxAllowedSelections = selectedFrequencyIndex + 1;
-          bool isEnabled = timeOfDayIndex <= maxAllowedSelections - 1;
-          return CheckboxListTile(
-            title: Text(timeOfDay),
-            value: isChecked,
-            onChanged: isEnabled ? (value) {
-              setState(() {
-                if (value != null && value) {
-                  _selectedTimes.add(timeOfDay);
-                } else {
-                  _selectedTimes.remove(timeOfDay);
-                }
-                _timesOfDayController.text = _selectedTimes.join(', ');
-              });
-            } : null, // Disable checkbox if the time of day exceeds the maximum allowed selections
+        value: _selectedFrequency,
+        onChanged: (value) {
+          setState(() {
+            _selectedFrequency = value!;
+            _selectedTimes.clear();
+            int selectedIndex = _frequencyOptions.indexOf(_selectedFrequency);
+            for (int i = 0; i <= selectedIndex; i++) {
+              _selectedTimes.add(_timesOfDayOptions[i]);
+            }
+          });
+        },
+        items: _frequencyOptions.map((frequency) {
+          return DropdownMenuItem<String>(
+            value: frequency,
+            child: Text(frequency),
           );
         }).toList(),
       ),
-    ],
-  );
-}
+    );
+  }
 
+  Widget buildTimesOfDayDropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Times of Day:',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _timesOfDayOptions.map((timeOfDay) {
+            bool isChecked = _selectedTimes.contains(timeOfDay);
+            int selectedFrequencyIndex =
+                _frequencyOptions.indexOf(_selectedFrequency);
+            int timeOfDayIndex = _timesOfDayOptions.indexOf(timeOfDay);
+            int maxAllowedSelections = selectedFrequencyIndex + 1;
+            bool isEnabled = timeOfDayIndex <= maxAllowedSelections - 1;
+            return CheckboxListTile(
+              title: Text(timeOfDay),
+              value: isChecked,
+              onChanged: isEnabled
+                  ? (value) {
+                      setState(() {
+                        if (value != null && value) {
+                          _selectedTimes.add(timeOfDay);
+                        } else {
+                          _selectedTimes.remove(timeOfDay);
+                        }
+                        _timesOfDayController.text = _selectedTimes.join(', ');
+                      });
+                    }
+                  : null, // Disable checkbox if the time of day exceeds the maximum allowed selections
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
 
-
-Future<void> _selectDate(TextEditingController controller) async {
+  Future<void> _selectDate(TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -231,36 +245,40 @@ Future<void> _selectDate(TextEditingController controller) async {
 
   void _updateMedicine() {
     showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Updating..',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Updating..',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              LinearProgressIndicator(
-                color: Colors.blue, // Customize color if needed
-                backgroundColor: Colors.grey[200], // Customize background color if needed
-              ),
-            ],
+                const SizedBox(height: 20),
+                LinearProgressIndicator(
+                  color: Colors.blue, // Customize color if needed
+                  backgroundColor:
+                      Colors.grey[200], // Customize background color if needed
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
 
-    DatabaseReference userMedicationsRef = _databaseReference.child(phoneNumber.toString()).child('Medications').child(medicationId);
-    
+    DatabaseReference userMedicationsRef = _databaseReference
+        .child(phoneNumber.toString())
+        .child('Medications')
+        .child(medicationId);
+
     String updatedMedicineName = _medicineNameController.text;
     String updatedDosage = _dosageController.text;
     String updatedFrequency = _selectedFrequency;
@@ -281,8 +299,7 @@ Future<void> _selectDate(TextEditingController controller) async {
     };
 
     // Update the medicine data in the database
-    userMedicationsRef.update(updatedData).
-      then((_) {
+    userMedicationsRef.update(updatedData).then((_) {
       // Clear the text controllers after saving
       _medicineNameController.clear();
       _dosageController.clear();
@@ -296,15 +313,14 @@ Future<void> _selectDate(TextEditingController controller) async {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Medication updated successfully!'),
       ));
-    })
-      .catchError((error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update medication: $error')),
-        );
-      });
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update medication: $error')),
+      );
+    });
   }
 
-Widget buildDateFormField(String label, TextEditingController controller) {
+  Widget buildDateFormField(String label, TextEditingController controller) {
     return GestureDetector(
       onTap: () => _selectDate(controller),
       child: AbsorbPointer(

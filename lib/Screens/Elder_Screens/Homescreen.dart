@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:Serene_Life/Screens/authentication/registration.dart' as RegistrationScreen;
+import 'package:Serene_Life/Screens/authentication/registration.dart'
+    as RegistrationScreen;
 import 'package:Serene_Life/Screens/Elder_Screens/profilescreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Medication/viewmedicationscreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Reports/viewreportscreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/caretakerscreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Exercises/viewexercisescreen.dart';
-
 import '../Minor screens/pageroute.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -58,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisSpacing: 40,
                 mainAxisSpacing: 40,
                 children: [
-                  itemDashboard('Medication', Icons.medication, Colors.deepOrange),
+                  itemDashboard(
+                      'Medication', Icons.medication, Colors.deepOrange),
                   itemDashboard('Caretaker', Icons.person_2, Colors.green),
                   itemDashboard('Reports', Icons.description, Colors.purple),
                   itemDashboard('SOS', Icons.sos, Colors.brown),
@@ -69,30 +70,43 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 60),
-          Center(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(
+                Navigator.of(context).push(
                   ScaleTransitionRoute(
                     builder: (context) => const ProfileScreen(),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff8cccff),
+                backgroundColor: Colors.blue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                padding: const EdgeInsets.symmetric(vertical: 14,),
+                elevation: 5,
+                shadowColor: Colors.grey.withOpacity(1.0),
               ),
-              child: const Text(
-                "Create Profile",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                  fontSize: 18,
-                ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.person_add,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    "Create Profile",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -139,36 +153,41 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(0, 3),
-                    blurRadius: 6,
-                    color: Colors.black.withOpacity(0.1),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        offset: const Offset(0, 3),
+                        blurRadius: 6,
+                        color: Colors.black.withOpacity(0.1),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Icon(
-                iconData,
-                color: background,
-                size: 35,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              title.toUpperCase(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+                  child: Icon(
+                    iconData,
+                    color: background,
+                    size: 35,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  title.toUpperCase(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -194,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
       default:
         return;
     }
-    Navigator.of(context).push(ScaleTransitionRoute(builder: (context) => screen));
+    Navigator.of(context)
+        .push(ScaleTransitionRoute(builder: (context) => screen));
   }
 }
-

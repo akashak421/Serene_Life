@@ -62,30 +62,43 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
             ),
           ),
           const SizedBox(height: 60),
-          Center(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(
+                Navigator.of(context).push(
                   ScaleTransitionRoute(
                     builder: (context) => const ProfileScreen(),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff8cccff),
+                backgroundColor: Colors.blue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                padding: const EdgeInsets.symmetric(vertical: 14,),
+                elevation: 5,
+                shadowColor: Colors.grey.withOpacity(1.0),
               ),
-              child: const Text(
-                "Create Profile",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                  fontSize: 18,
-                ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.person_add,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    "Create Profile",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

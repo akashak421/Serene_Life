@@ -85,26 +85,26 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
             ),
             const SizedBox(height: 15),
             Center(
-              child: ElevatedButton(
-                onPressed: _saveExercise,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff8cccff),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 80),
-                ),
-                child: const Text(
-                  "Add",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
+  child: ElevatedButton(
+    onPressed: _saveExercise,
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.blue, // Set button background color
+      foregroundColor: Colors.white, // Set text color
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 80),
+    ),
+    child: const Text(
+      "Add",
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1.5,
+        fontSize: 18,
+      ),
+    ),
+  ),
+),
           ],
         ),
       ),

@@ -30,126 +30,122 @@ class _AddReportScreenState extends State<AddReportScreen> {
   String? partnerPhoneNumber;
 
   void _uploadReport() async {
-  if (_formKey.currentState!.validate()) {
-    if (_filePath == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Please select a file')));
-      return;
-    }
+    if (_formKey.currentState!.validate()) {
+      if (_filePath == null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Please select a file')));
+        return;
+      }
 
-    try {
-      final User? user = _auth.currentUser;
-       if (user != null) {
-        // Fetch partner's phone number from Firestore
-        DocumentSnapshot userProfile = await FirebaseFirestore.instance
-            .collection('Profiles')
-            .doc(user.phoneNumber)
-            .get();
-        partnerPhoneNumber = userProfile['partnerPhoneNumber'];
-       }
+      try {
+        final User? user = _auth.currentUser;
+        if (user != null) {
+          // Fetch partner's phone number from Firestore
+          DocumentSnapshot userProfile = await FirebaseFirestore.instance
+              .collection('Profiles')
+              .doc(user.phoneNumber)
+              .get();
+          partnerPhoneNumber = userProfile['partnerPhoneNumber'];
+        }
 
+        Reference storageRef =
+            FirebaseStorage.instance.ref().child('reports').child('$_fileName');
+        UploadTask uploadTask = storageRef.putFile(File(_filePath!));
 
-      Reference storageRef = FirebaseStorage.instance
-          .ref()
-          .child('reports')
-          .child('$_fileName');
-      UploadTask uploadTask = storageRef.putFile(File(_filePath!));
-
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Dialog(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Uploading Report',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return Dialog(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Uploading Report',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  LinearProgressIndicator(
-                    color: Colors.white,
-                    backgroundColor: Color(0xff8cccff),
-                  ),
-                ],
+                    SizedBox(height: 20),
+                    LinearProgressIndicator(
+                      color: Colors.white,
+                      backgroundColor: Color(0xff8cccff),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      );
+            );
+          },
+        );
 
-      uploadTask.whenComplete(() async {
-        String downloadURL = await storageRef.getDownloadURL();
-        String reportId = DateTime.now().microsecond.toString();
-        DatabaseReference dbRef = FirebaseDatabase.instance
-            .ref()
-            .child(partnerPhoneNumber.toString())
-            .child('Reports')
-            .child(reportId);
-        dbRef.set({
-          'title': _titleController.text,
-          'description': _descriptionController.text,
-          'fileUrl': downloadURL,
-          'timestamp': DateTime.now().toString()
-        }).then((_) {
-          _formKey.currentState!.reset();
-          _filePath = null;
-          setState(() {
-            _fileName = '';
+        uploadTask.whenComplete(() async {
+          String downloadURL = await storageRef.getDownloadURL();
+          String reportId = DateTime.now().microsecond.toString();
+          DatabaseReference dbRef = FirebaseDatabase.instance
+              .ref()
+              .child(partnerPhoneNumber.toString())
+              .child('Reports')
+              .child(reportId);
+          dbRef.set({
+            'title': _titleController.text,
+            'description': _descriptionController.text,
+            'fileUrl': downloadURL,
+            'timestamp': DateTime.now().toString()
+          }).then((_) {
+            _formKey.currentState!.reset();
+            _filePath = null;
+            setState(() {
+              _fileName = '';
+            });
+            _titleController.clear();
+            _descriptionController.clear();
+
+            Navigator.pop(context); // Close the progress dialog
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Report uploaded successfully')));
+
+            // Navigate to ReportScreen
+            Navigator.push(
+              context,
+              ScaleTransitionRoute(builder: (context) => ReportScreen()),
+            );
+          }).catchError((error) {
+            Navigator.pop(context); // Close the progress dialog
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Failed to upload report')));
           });
-          _titleController.clear();
-          _descriptionController.clear();
-
-          Navigator.pop(context); // Close the progress dialog
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Report uploaded successfully')));
-
-          // Navigate to ReportScreen
-          Navigator.push(
-            context,
-            ScaleTransitionRoute(builder: (context) => ReportScreen()),
-          );
         }).catchError((error) {
           Navigator.pop(context); // Close the progress dialog
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to upload report')));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Failed to upload file')));
         });
-      }).catchError((error) {
+      } catch (e) {
+        print(e.toString());
         Navigator.pop(context); // Close the progress dialog
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to upload file')));
-      });
-    } catch (e) {
-      print(e.toString());
-      Navigator.pop(context); // Close the progress dialog
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('An error occurred. Please try again.')));
+            SnackBar(content: Text('An error occurred. Please try again.')));
+      }
     }
   }
-}
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add Report'),
-      actions: [
+      appBar: AppBar(
+        title: Text('Add Report'),
+        actions: [
           Padding(
-            padding: const EdgeInsets.only(right:8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  ScaleTransitionRoute(builder: (context) => CaretakerHomeScreen()),
+                  ScaleTransitionRoute(
+                      builder: (context) => CaretakerHomeScreen()),
                 );
               },
             ),
@@ -204,44 +200,44 @@ class _AddReportScreenState extends State<AddReportScreen> {
                           SnackBar(content: Text('No file selected')));
                     }
                   },
-                   style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff8cccff),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                ),
-                child: Text(
-                  "Select Files",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 18,
+                  child: Text(
+                    "Select Files",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
                 ),
               ),
               SizedBox(height: 25.0),
               Center(
                 child: ElevatedButton(
                   onPressed: _uploadReport,
-                   style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff8cccff),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
-                ),
-                child: Text(
-                  "Upload Report",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 18,
+                  child: Text(
+                    "Upload Report",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
                 ),
               ),
             ],

@@ -201,37 +201,42 @@ class _EditReportScreenState extends State<EditReportScreen> {
                       ElevatedButton(
                         onPressed: _selectFile,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff8cccff),
+                          backgroundColor:
+                              Colors.blue, // Change button background color
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 30),
                         ),
-                        child: Text('Select File',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
+                        child: Text(
+                          'Select File',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
                         ),
-                      ),
                       ),
                       ElevatedButton(
                         onPressed: _clearFields,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor:
+                              Colors.red, // Change button background color
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 30),
                         ),
                         child: Text(
-                        "Clear Fields",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
+                          'Clear Fields',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
                         ),
-                      ),
                       ),
                     ],
                   ),
@@ -240,11 +245,12 @@ class _EditReportScreenState extends State<EditReportScreen> {
                     child: ElevatedButton(
                       onPressed: _updateReport,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff8cccff),
+                        backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 16, horizontal: 30),
                       ),
                       child: Text(
                         "Update Report",

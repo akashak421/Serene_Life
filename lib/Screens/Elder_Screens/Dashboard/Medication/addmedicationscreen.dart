@@ -27,10 +27,20 @@ class _MedicationScreenState extends State<MedicationScreen> {
   TextEditingController _timesOfDayController = TextEditingController();
   TextEditingController _instructionsController = TextEditingController();
 
-  List<String> _frequencyOptions = ['Once', 'Twice', 'Three Times', 'Four Times'];
+  List<String> _frequencyOptions = [
+    'Once',
+    'Twice',
+    'Three Times',
+    'Four Times'
+  ];
 
   String _selectedFrequency = 'Once';
-  List<String> _timesOfDayOptions = ['Morning', 'Afternoon', 'Evening', 'Night'];
+  List<String> _timesOfDayOptions = [
+    'Morning',
+    'Afternoon',
+    'Evening',
+    'Night'
+  ];
   List<String> _selectedTimes = [];
 
   @override
@@ -40,7 +50,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
         title: Text("Medication"),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right:8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
@@ -80,12 +90,13 @@ class _MedicationScreenState extends State<MedicationScreen> {
               controller: _instructionsController,
               label: 'Instructions',
             ),
-            SizedBox(height: 15 ),
+            SizedBox(height: 15),
             Center(
               child: ElevatedButton(
                 onPressed: _saveMedication,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff8cccff),
+                  backgroundColor:
+                      Colors.blue, // Change button background color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                   ),
@@ -108,78 +119,79 @@ class _MedicationScreenState extends State<MedicationScreen> {
     );
   }
 
- Widget buildFrequencyDropdown() {
-  return Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(15),
-      border: Border.all(color: Colors.grey.shade300),
-    ),
-    padding: EdgeInsets.symmetric(horizontal: 16),
-    child: DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: 'Frequency',
-        border: InputBorder.none,
+  Widget buildFrequencyDropdown() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey.shade300),
       ),
-      value: _selectedFrequency,
-      onChanged: (value) {
-        setState(() {
-          _selectedFrequency = value!;
-          // Update the times of day options based on the selected frequency
-          _selectedTimes.clear();
-          for (int i = 0; i < _frequencyOptions.indexOf(_selectedFrequency) + 1; i++) {
-            _selectedTimes.add(_timesOfDayOptions[i]);
-          }
-          _timesOfDayController.text = _selectedTimes.join(', ');
-        });
-      },
-      items: _frequencyOptions.map((frequency) {
-        return DropdownMenuItem<String>(
-          value: frequency,
-          child: Text(frequency),
-        );
-      }).toList(),
-    ),
-  );
-}
-
-
-  Widget buildTimesOfDayDropdown() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        'Times of Day:',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          labelText: 'Frequency',
+          border: InputBorder.none,
         ),
-      ),
-      // SizedBox(height: 8),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: _timesOfDayOptions.map((timeOfDay) {
-          return CheckboxListTile(
-            title: Text(timeOfDay),
-            value: _selectedTimes.contains(timeOfDay),
-            onChanged: (value) {
-              setState(() {
-                if (value != null && value) {
-                  if (_selectedTimes.length < _frequencyOptions.indexOf(_selectedFrequency) + 1) {
-                    _selectedTimes.add(timeOfDay);
-                  }
-                } else {
-                  _selectedTimes.remove(timeOfDay);
-                }
-                _timesOfDayController.text = _selectedTimes.join(', ');
-              });
-            },
+        value: _selectedFrequency,
+        onChanged: (value) {
+          setState(() {
+            _selectedFrequency = value!;
+            // Update the times of day options based on the selected frequency
+            _selectedTimes.clear();
+            for (int i = 0;
+                i < _frequencyOptions.indexOf(_selectedFrequency) + 1;
+                i++) {
+              _selectedTimes.add(_timesOfDayOptions[i]);
+            }
+            _timesOfDayController.text = _selectedTimes.join(', ');
+          });
+        },
+        items: _frequencyOptions.map((frequency) {
+          return DropdownMenuItem<String>(
+            value: frequency,
+            child: Text(frequency),
           );
         }).toList(),
       ),
-    ],
-  );
-}
+    );
+  }
 
+  Widget buildTimesOfDayDropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Times of Day:',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        // SizedBox(height: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _timesOfDayOptions.map((timeOfDay) {
+            return CheckboxListTile(
+              title: Text(timeOfDay),
+              value: _selectedTimes.contains(timeOfDay),
+              onChanged: (value) {
+                setState(() {
+                  if (value != null && value) {
+                    if (_selectedTimes.length <
+                        _frequencyOptions.indexOf(_selectedFrequency) + 1) {
+                      _selectedTimes.add(timeOfDay);
+                    }
+                  } else {
+                    _selectedTimes.remove(timeOfDay);
+                  }
+                  _timesOfDayController.text = _selectedTimes.join(', ');
+                });
+              },
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
 
   Future<void> _selectDate(TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
@@ -196,93 +208,96 @@ class _MedicationScreenState extends State<MedicationScreen> {
   }
 
   void _saveMedication() {
-  // Check if any of the fields are empty
-  if (_medicineNameController.text.isEmpty ||
-      _dosageController.text.isEmpty ||
-      _startDateController.text.isEmpty ||
-      _endDateController.text.isEmpty ||
-      _selectedTimes.isEmpty ||
-      _instructionsController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Please fill in all the fields')),
-    );
-    return;
-  }
-
-  String? phoneNumber;
-  try {
-    phoneNumber = user!.phoneNumber;
-  } catch (e) {
-    // Handle the case where the phone number is not a valid integer
-    print('Invalid phone number format');
-    return;
-  }
-
-  // Generate a relevant unique ID using timestamp and medication name
-  String medicationId = DateTime.now().microsecond.toString();
-
-  DatabaseReference userMedicationsRef = databaseReference.child(phoneNumber.toString()).child('Medications').child(medicationId);
-
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Adding Medication',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(height: 20),
-              LinearProgressIndicator(
-                color: Colors.blue,
-                backgroundColor: Colors.grey.shade300,
-              ),
-            ],
-          ),
-        ),
+    // Check if any of the fields are empty
+    if (_medicineNameController.text.isEmpty ||
+        _dosageController.text.isEmpty ||
+        _startDateController.text.isEmpty ||
+        _endDateController.text.isEmpty ||
+        _selectedTimes.isEmpty ||
+        _instructionsController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill in all the fields')),
       );
-    },
-  );
+      return;
+    }
 
-  userMedicationsRef.set({
-    'medicineName': _medicineNameController.text,
-    'dosage': _dosageController.text,
-    'frequency': _selectedFrequency,
-    'startDate': _startDateController.text,
-    'endDate': _endDateController.text,
-    'timesOfDay': _timesOfDayController.text,
-    'instructions': _instructionsController.text,
-  }).then((_) {
-    Navigator.pop(context);
+    String? phoneNumber;
+    try {
+      phoneNumber = user!.phoneNumber;
+    } catch (e) {
+      // Handle the case where the phone number is not a valid integer
+      print('Invalid phone number format');
+      return;
+    }
 
-    // Show a success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Medication added successfully!')),
-    );
+    // Generate a relevant unique ID using timestamp and medication name
+    String medicationId = DateTime.now().microsecond.toString();
 
-     Navigator.pushReplacement(
-          context,
-          ScaleTransitionRoute(builder: (context) => ViewMedicineScreen()),
+    DatabaseReference userMedicationsRef = databaseReference
+        .child(phoneNumber.toString())
+        .child('Medications')
+        .child(medicationId);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Adding Medication',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 20),
+                LinearProgressIndicator(
+                  color: Colors.blue,
+                  backgroundColor: Colors.grey.shade300,
+                ),
+              ],
+            ),
+          ),
         );
-  }).catchError((error) {
-    // Close the dialog
-    Navigator.pop(context);
-
-    // Show an error message if something goes wrong
-    print("Error saving medication: $error");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to save medication. Please try again.')),
+      },
     );
-  });
-}
+
+    userMedicationsRef.set({
+      'medicineName': _medicineNameController.text,
+      'dosage': _dosageController.text,
+      'frequency': _selectedFrequency,
+      'startDate': _startDateController.text,
+      'endDate': _endDateController.text,
+      'timesOfDay': _timesOfDayController.text,
+      'instructions': _instructionsController.text,
+    }).then((_) {
+      Navigator.pop(context);
+
+      // Show a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Medication added successfully!')),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        ScaleTransitionRoute(builder: (context) => ViewMedicineScreen()),
+      );
+    }).catchError((error) {
+      // Close the dialog
+      Navigator.pop(context);
+
+      // Show an error message if something goes wrong
+      print("Error saving medication: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save medication. Please try again.')),
+      );
+    });
+  }
 
   Widget buildDateFormField(String label, TextEditingController controller) {
     return GestureDetector(
