@@ -123,8 +123,25 @@ class _ReportScreenState extends State<ReportScreen> {
               itemCount: reports.length,
               itemBuilder: (context, index) {
                 Report report = reports[index];
-                return GestureDetector(
-                  onTap: () {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: InkWell(
+                      onTap: ()
+                        {
                     showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -154,29 +171,49 @@ class _ReportScreenState extends State<ReportScreen> {
                       },
                     );
                     _previewReport(report);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6.0), // Add vertical padding between cards
-                    child: Container(
-                      child: Card(
-                        elevation: 4,
-                        color: Colors.blue.shade100,
-                        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: ListTile(
-                          title: Text(
-                            report.title,
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            report.description,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          trailing: IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: () {
-                              Navigator.of(context).push(ScaleTransitionRoute(builder: (context) => EditReportScreen(report: report)));
-                            },
-                          ),
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    report.title,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Description: ${report.description}',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey[800],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: IconButton(
+                                icon: Icon(Icons.edit, color: Colors.blue),
+                                onPressed: () {
+                                  Navigator.of(context).push(ScaleTransitionRoute(
+                                    builder: (context) =>
+                                        EditReportScreen(report: report),
+                                  ));
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -195,7 +232,7 @@ class _ReportScreenState extends State<ReportScreen> {
           );
         },
         child: Icon(Icons.add),
-         backgroundColor: const Color(0xff8cccff),
+        backgroundColor: Colors.blue,
       ),
     );
   }

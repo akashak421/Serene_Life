@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_constructors_in_immutables
-
 import 'viewmedicationscreen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,95 +10,101 @@ class MedicineDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Medicine Details'),
+        title: const Text('Medicine Details'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Card(
           elevation: 4,
-          margin: EdgeInsets.all(8),
-          color: Colors.blue.shade100,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListTile(
-                  title: Text(
-                    'Name',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          margin: const EdgeInsets.all(8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.blue.shade200, Colors.blue.shade50],
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildDetailItem(
+                    title: 'Name',
+                    subtitle: medicine.name,
+                    icon: Icons.medication,
                   ),
-                  subtitle: Text(
-                    medicine.name,
-                    style: TextStyle(fontSize: 16),
+                  _buildDivider(),
+                  _buildDetailItem(
+                    title: 'Dosage',
+                    subtitle: medicine.dosage,
+                    icon: Icons.format_list_numbered,
                   ),
-                  leading: Icon(Icons.medication),
-                ),
-                Divider(color: Colors.black,),
-                ListTile(
-                  title: Text(
-                    'Dosage',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  _buildDivider(),
+                  _buildDetailItem(
+                    title: 'Frequency',
+                    subtitle: medicine.frequency,
+                    icon: Icons.access_time,
                   ),
-                  subtitle: Text(
-                    medicine.dosage,
-                    style: TextStyle(fontSize: 16),
+                  _buildDivider(),
+                  _buildDetailItem(
+                    title: 'Start Date',
+                    subtitle: medicine.start_date,
+                    icon: Icons.calendar_today,
                   ),
-                  leading: Icon(Icons.format_list_numbered),
-                ),
-                Divider(color: Colors.black,),
-                ListTile(
-                  title: Text(
-                    'Frequency',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  _buildDivider(),
+                  _buildDetailItem(
+                    title: 'End Date',
+                    subtitle: medicine.end_date,
+                    icon: Icons.calendar_today,
                   ),
-                  subtitle: Text(
-                    medicine.frequency,
-                    style: TextStyle(fontSize: 16),
+                  _buildDivider(),
+                  _buildDetailItem(
+                    title: 'Instructions',
+                    subtitle: medicine.instructions,
+                    icon: Icons.format_align_justify,
                   ),
-                  leading: Icon(Icons.access_time),
-                ),
-                Divider(color: Colors.black,),
-                ListTile(
-                  title: Text(
-                    'Start Date',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    medicine.start_date,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  leading: Icon(Icons.calendar_month_outlined),
-                ),
-                Divider(color: Colors.black,),
-                ListTile(
-                  title: Text(
-                    'End Date',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    medicine.end_date,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  leading: Icon(Icons.calendar_month_outlined),
-                ),
-                Divider(color: Colors.black,),
-                 ListTile(
-                  title: Text(
-                    'Instructions',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    medicine.instructions,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  leading: Icon(Icons.format_align_justify),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDetailItem({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+  }) {
+    return ListTile(
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(fontSize: 18, fontFamily: 'Roboto'),
+      ),
+      leading: Icon(
+        icon,
+        color: Colors.blue,
+        size: 32,
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Divider(
+      color: Colors.black,
+      thickness: 1.0,
+      height: 24.0,
     );
   }
 }

@@ -1,4 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
 import 'package:Serene_Life/Screens/Caretaker_Screens/caretakerhomescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -23,7 +22,7 @@ class Exercise {
 }
 
 class ViewExerciseScreen extends StatefulWidget {
-  const ViewExerciseScreen({super.key});
+  const ViewExerciseScreen({Key? key}) : super(key: key);
 
   @override
   _ViewExerciseScreenState createState() => _ViewExerciseScreenState();
@@ -107,32 +106,60 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 6.0), // Add vertical padding between cards
-                  child: Card(
-                    elevation: 4,
-                    color: Colors.blue.shade100,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: ListTile(
-                      title: Text(
-                        exercise.name,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      vertical: 8.0, horizontal: 16.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: InkWell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    exercise.name,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Duration: ${exercise.duration}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Instructions: ${exercise.instructions}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Duration : ${exercise.duration}',
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            'Instruction : ${exercise.instructions}',
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                     ),
+                    ),
                   ),
                 );
               },

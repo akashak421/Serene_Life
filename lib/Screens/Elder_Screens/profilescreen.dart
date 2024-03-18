@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use, unnecessary_null_comparison, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, library_private_types_in_public_api, avoid_print, prefer_const_constructors, use_build_context_synchronously, sort_child_properties_last, library_prefixes
-
 import 'dart:io';
 
 import 'package:Serene_Life/Screens/authentication/registration.dart'
@@ -39,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Serene Life",
           style: TextStyle(
             fontSize: 30,
@@ -49,10 +47,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
             onPressed: () async {
               await logoutAndNavigateToRegistration(context);
             },
+            icon: const Icon(Icons.logout,),
+            style: ElevatedButton.styleFrom(
+            shadowColor: Colors.transparent,
+            ),
           ),
         ],
       ),
@@ -64,12 +65,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'User Profile',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
                     _pickImage(ImageSource.gallery);
@@ -90,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                             )
-                          : CircleAvatar(
+                          : const CircleAvatar(
                               radius: 70,
                               backgroundColor: Colors.blue,
                               child: Icon(
@@ -103,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onTap: () {
                           _pickImage(ImageSource.camera);
                         },
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 25,
                           backgroundColor: Colors.white,
                           child: Icon(
@@ -116,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 CustomTextField(
                   label: 'Name',
                   controller: _nameController,
@@ -128,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 CustomTextField(
                   label: 'Email',
                   controller: _emailController,
@@ -142,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 CustomTextField(
                   label: 'Address',
                   controller: _addressController,
@@ -154,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 CustomTextField(
                   label: 'Age',
                   controller: _ageController,
@@ -166,20 +167,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     labelText: 'Gender',
-                    labelStyle: TextStyle(fontSize: 16),
+                    labelStyle: const TextStyle(fontSize: 16),
                     hintText: 'Select Gender',
-                    hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+                    hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey.shade300),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.blue),
+                      borderSide: const BorderSide(color: Colors.blue),
                     ),
                   ),
                   value: _selectedGender,
@@ -202,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
@@ -210,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         saveProfileDetails();
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('Please select an image.'),
                           ),
                         );
@@ -219,27 +220,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xff8cccff),
-                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 60),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         if (isSavingProfile)
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
-                            height: 20,
+                            height: 40,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                               valueColor:
                                   AlwaysStoppedAnimation<Color>(Colors.white),
                             ),
                           ),
-                        if (isSavingProfile) SizedBox(width: 10),
+                        if (isSavingProfile) const SizedBox(width: 10),
                         Text(
                           isSavingProfile ? 'Saving...' : 'Submit',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.5,
@@ -263,7 +264,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await _auth.signOut();
       Navigator.of(context).pushReplacement(
         ScaleTransitionRoute(
-          builder: (context) => RegistrationScreen.RegisterScreen(),
+          builder: (context) => const RegistrationScreen.RegisterScreen(),
         ),
       );
     } catch (e) {
@@ -293,7 +294,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (imageUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Please select an image.'),
         ),
       );
@@ -305,7 +306,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (fcmToken == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Failed to retrieve FCM token.'),
         ),
       );
@@ -331,7 +332,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       SetOptions(merge: true),
     ).then((value) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Profile saved successfully!'),
         ),
       );
@@ -346,7 +347,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Failed to save profile. Please try again.'),
         ),
       );

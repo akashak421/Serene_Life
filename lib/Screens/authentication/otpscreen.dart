@@ -129,7 +129,6 @@ class _OTPScreenState extends State<OTPScreen> {
               .set(
             {
               'token': _fcmToken,
-              'assigned': 'false',
             },
             SetOptions(merge: true),
           );

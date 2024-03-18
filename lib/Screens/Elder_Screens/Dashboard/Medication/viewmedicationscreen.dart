@@ -110,52 +110,101 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
                 Medicine medicine = medicines[index];
 
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6.0), // Add vertical padding between cards
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
                   child: Container(
-                    child: Card(
-                      elevation: 4,
-                      color: Colors.blue.shade100,
-                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      child: ListTile(
-                        title: Text(
-                          medicine.name,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
                         ),
-                        subtitle: Column(
+                      ],
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                MedicineDetailsScreen(medicine: medicine),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Dosage : ${medicine.dosage}',
-                              style: TextStyle(fontSize: 18),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    medicine.name,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Dosage: ${medicine.dosage}',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[800]),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'Frequency: ${medicine.frequency}',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[800]),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'From: ${medicine.start_date}',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[800]),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'To: ${medicine.end_date}',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[800]),
+                                  ),
+                                ],
+                              ),
                             ),
-                            Text(
-                              'Frequency : ${medicine.frequency}',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            Text(
-                              '${medicine.start_date} - ${medicine.end_date}',
-                              style: TextStyle(fontSize: 18),
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                      icon:
+                                          Icon(Icons.edit, color: Colors.blue),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditMedicineScreen(
+                                                    medicine: medicine),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            ScaleTransitionRoute(
-                              builder: (context) => MedicineDetailsScreen(medicine: medicine),
-                            ),
-                          );
-                        },
-                        trailing: IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              ScaleTransitionRoute(
-                                builder: (context) => EditMedicineScreen(medicine: medicine),
-                              ),
-                            );
-                          },
                         ),
                       ),
                     ),
@@ -174,7 +223,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
           );
         },
         child: Icon(Icons.add),
-        backgroundColor: const Color(0xff8cccff),
+        backgroundColor: Colors.blue,
       ),
     );
   }
