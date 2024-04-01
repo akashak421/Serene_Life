@@ -1,4 +1,3 @@
-import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/Nutrition/viewnutritionscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart'
@@ -9,6 +8,7 @@ import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Reports/viewreportsc
 import 'package:Serene_Life/Screens/Elder_Screens/caretakerscreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Exercises/viewexercisescreen.dart';
 import '../Minor screens/pageroute.dart';
+import 'Dashboard/Nutrition/viewnutritionscreeen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

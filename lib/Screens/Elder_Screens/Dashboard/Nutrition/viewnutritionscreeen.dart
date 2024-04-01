@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../Minor screens/pageroute.dart';
 import '../../Homescreen.dart';
 
@@ -90,7 +89,7 @@ class _ViewNutritionScreenState extends State<ViewNutritionScreen> {
                 Navigator.pushReplacement(
                   context,
                   ScaleTransitionRoute(
-                      builder: (context) => const HomeScreen()),
+                      builder: (context) =>const HomeScreen()),
                 );
               },
             ),
