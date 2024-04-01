@@ -9,6 +9,8 @@ import '../../caretakerhomescreen.dart';
 // import 'view_exercise_screen.dart';
 import 'package:Serene_Life/Screens/styles/fields.dart';
 
+import 'viewexercisescreen.dart';
+
 class AddExerciseScreen extends StatefulWidget {
   const AddExerciseScreen({super.key});
 
@@ -166,10 +168,10 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
         const SnackBar(content: Text('Exercise added successfully!')),
       );
 
-      // Navigator.pushReplacement(
-      //   context,
-      //   // ScaleTransitionRoute(builder: (context) => ViewExerciseScreen()),
-      // );
+      Navigator.pushReplacement(
+        context,
+        ScaleTransitionRoute(builder: (context) => ViewExerciseScreen()),
+      );
     }).catchError((error) {
       // Close the dialog
       Navigator.pop(context);

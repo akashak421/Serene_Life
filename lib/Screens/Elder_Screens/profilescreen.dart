@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:Serene_Life/Screens/authentication/registration.dart'
@@ -13,7 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import '../Minor screens/pageroute.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -30,7 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? imageUrl;
   bool isSavingProfile = false;
   User? user = FirebaseAuth.instance.currentUser;
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -50,10 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () async {
               await logoutAndNavigateToRegistration(context);
             },
-            icon: const Icon(Icons.logout,),
-            style: ElevatedButton.styleFrom(
-            shadowColor: Colors.transparent,
-            ),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
@@ -173,7 +171,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelText: 'Gender',
                     labelStyle: const TextStyle(fontSize: 16),
                     hintText: 'Select Gender',
-                    hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                    hintStyle:
+                        const TextStyle(fontSize: 14, color: Colors.grey),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.grey.shade300),
@@ -204,8 +203,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
+                ElevatedButton(
+                  onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       if (_image != null) {
                         saveProfileDetails();
@@ -218,37 +217,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       }
                     }
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 60),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (isSavingProfile)
-                          const SizedBox(
-                            width: 20,
-                            height: 40,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          ),
-                        if (isSavingProfile) const SizedBox(width: 10),
-                        Text(
-                          isSavingProfile ? 'Saving...' : 'Submit',
-                          style: const TextStyle(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 14, horizontal: 60),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (isSavingProfile)
+                        const SizedBox(
+                          width: 20,
+                          height: 40,
+                          child: LinearProgressIndicator(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            fontSize: 18,
+                            backgroundColor: Color(0xff8cccff),
                           ),
                         ),
-                      ],
-                    ),
+                      if (isSavingProfile) const SizedBox(width: 10),
+                      Text(
+                        isSavingProfile ? 'Saving...' : 'Submit',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

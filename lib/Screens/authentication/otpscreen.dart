@@ -148,11 +148,11 @@ class _OTPScreenState extends State<OTPScreen> {
         }
       }
     } catch (e) {
-      showSnackBarText("OTP verification failed. Please try again.");
+      showSnackBarText("OTP verification failed. Please try again.$e");
     } finally {
       setState(() {
         isVerifyingOTP =
-            false; // Reset isVerifyingOTP after OTP verification completes
+            false;
       });
     }
   }

@@ -1,3 +1,4 @@
+import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/Nutrition/viewnutritionscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart'
@@ -58,8 +59,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 crossAxisSpacing: 40,
                 mainAxisSpacing: 40,
                 children: [
-                  itemDashboard(
-                      'Medication', Icons.medication, Colors.deepOrange),
+                  itemDashboard('Medication', Icons.medication, Colors.deepOrange),
                   itemDashboard('Caretaker', Icons.person_2, Colors.green),
                   itemDashboard('Reports', Icons.description, Colors.purple),
                   itemDashboard('SOS', Icons.sos, Colors.brown),
@@ -209,6 +209,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         break;
       case 'Exercises':
         screen = const ViewExerciseScreen();
+        break;
+      case 'Nutrition':
+        screen = const ViewNutritionScreen();
         break;
       default:
         return;

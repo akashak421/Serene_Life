@@ -26,7 +26,7 @@ class _PatientScreenState extends State<PatientScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Patient Requests'),
+        title: const Text('Patient Details'),
       ),
       body: FutureBuilder<DocumentSnapshot>(
         future: _firestore

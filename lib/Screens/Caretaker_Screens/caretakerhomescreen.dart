@@ -1,5 +1,6 @@
 // ignore_for_file: library_prefixes, use_build_context_synchronously, avoid_print
 
+import 'package:Serene_Life/Screens/Caretaker_Screens/Caretaker_Dashboard/Nutrition/viewnutritionscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart' as RegistrationScreen;
@@ -196,6 +197,9 @@ class _CaretakerHomeScreenState extends State<CaretakerHomeScreen> {
         break;
       case 'Exercises':
         screen = const ViewExerciseScreen();
+        break;
+      case 'Nutrition':
+        screen = const ViewNutritionScreen();
         break;
       default:
         // Default case
