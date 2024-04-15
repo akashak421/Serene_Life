@@ -16,6 +16,7 @@ class CaretakerListScreen extends StatefulWidget {
 class _CaretakerListScreenState extends State<CaretakerListScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final User? _user = FirebaseAuth.instance.currentUser;
+  String? partnerPhoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,8 @@ class _CaretakerListScreenState extends State<CaretakerListScreen> {
                     String age = caretakerData['age'];
                     String imageUrl = caretakerData['imageUrl'];
                     String token = caretakerData['token'];
-                    return Padding(
+                    return SingleChildScrollView(
+                      child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,8 +187,32 @@ class _CaretakerListScreenState extends State<CaretakerListScreen> {
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _disconnect();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 24),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor: Colors.blue,
+                                ),
+                                child: Text(
+                                  'Disconnect',
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
+                      ),
                     );
                   }
                 },
@@ -231,55 +257,55 @@ class _CaretakerListScreenState extends State<CaretakerListScreen> {
                     }
 
                     return ListView.builder(
-                        itemCount: userDetails.length,
-                        itemBuilder: (context, index) {
-                          Map<String, dynamic> user = userDetails[index];
-                          String name = user['name'];
-                          String email = user['email'];
-                          String phoneNumber = user['phoneNumber'];
+                      itemCount: userDetails.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> user = userDetails[index];
+                        String name = user['name'];
+                        String email = user['email'];
+                        String phoneNumber = user['phoneNumber'];
 
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              color: Colors.blue.shade100,
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 4),
-                              child: ListTile(
-                                title: Text(
-                                  name,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            color: Colors.blue.shade100,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 4),
+                            child: ListTile(
+                              title: Text(
+                                name,
+                                style: TextStyle(
+                                  fontSize: 20,
                                 ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Email: $email',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Phone Number: $phoneNumber',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    ScaleTransitionRoute(
-                                      builder: (context) =>
-                                          CaretakerdetailsScreen(user: user),
-                                    ),
-                                  );
-                                },
                               ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Email: $email',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Phone Number: $phoneNumber',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  ScaleTransitionRoute(
+                                    builder: (context) =>
+                                        CaretakerdetailsScreen(user: user),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
+                          ),
+                        );
+                      },
                     );
                   }
                 },
@@ -290,4 +316,68 @@ class _CaretakerListScreenState extends State<CaretakerListScreen> {
       ),
     );
   }
+  _disconnect() async {
+    String? partnerPhoneNumber;
+DocumentSnapshot userProfile = await FirebaseFirestore.instance
+        .collection('Profiles')
+        .doc(_user!.phoneNumber)
+        .get();
+    partnerPhoneNumber = userProfile['partnerPhoneNumber'];
+
+  // Show a confirmation dialog
+  bool confirmDisconnect = await showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text('Disconnect Caretaker'),
+      content: Text('Are you sure you want to disconnect from this caretaker?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false), // Cancel
+          child: Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true), // Confirm
+          child: Text('Disconnect'),
+        ),
+      ],
+    ),
+  );
+
+  // If user confirms to disconnect
+  if (confirmDisconnect == true) {
+    try {
+      // Update the current user's profile to remove caretaker details
+      await _firestore
+          .collection('Profiles')
+          .doc(_user.phoneNumber.toString())
+          .update({
+        'assigned': 'false',
+        'partnerPhoneNumber': FieldValue.delete(),
+      });
+
+      // If partner phone number is not null, update the partner's profile to remove current user's phone number
+      if (partnerPhoneNumber != null && partnerPhoneNumber.isNotEmpty) {
+        await _firestore
+            .collection('Profiles')
+            .doc(partnerPhoneNumber)
+            .update({
+          'assigned': 'false',
+          'partnerPhoneNumber': FieldValue.delete(),
+        });
+      }
+
+      // Show a snackbar to indicate successful disconnection
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Disconnected caretaker successfully'),
+      ));
+    } catch (error) {
+      print('Error disconnecting from caretaker: $error');
+      // Show a snackbar to indicate error
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to disconnect from caretaker'),
+      ));
+    }
+  }
+}
+
 }

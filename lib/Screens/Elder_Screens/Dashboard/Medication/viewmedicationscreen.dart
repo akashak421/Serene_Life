@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last
 
 import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
+import 'package:Serene_Life/Screens/Elder_Screens/alarm.dart';
 import '../../../Minor screens/pageroute.dart';
 import 'editmedicationscreen.dart';
 import 'addmedicationscreen.dart';
@@ -33,7 +34,7 @@ class Medicine {
 }
 
 class ViewMedicineScreen extends StatefulWidget {
-  const ViewMedicineScreen({super.key});
+  const ViewMedicineScreen({Key? key}) : super(key: key);
 
   @override
   _ViewMedicineScreenState createState() => _ViewMedicineScreenState();
@@ -42,12 +43,16 @@ class ViewMedicineScreen extends StatefulWidget {
 class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
   late DatabaseReference dbRef;
   late Future<DataSnapshot> _fetchDataFuture;
+  List<String> sessions = [];
 
   @override
   void initState() {
     super.initState();
     final User? user = FirebaseAuth.instance.currentUser;
-    dbRef = FirebaseDatabase.instance.ref().child(user!.phoneNumber!).child('Medications');
+    dbRef = FirebaseDatabase.instance
+        .ref()
+        .child(user!.phoneNumber!)
+        .child('Medications');
     _fetchDataFuture = dbRef.once().then((event) => event.snapshot);
   }
 
@@ -58,7 +63,7 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
         title: Text('View Medicines'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right:8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
@@ -81,7 +86,8 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
           } else if (!snapshot.hasData || snapshot.data!.value == null) {
             return Center(child: Text('No data available'));
           } else {
-            final Map<dynamic, dynamic>? medicinesData = snapshot.data!.value as Map<dynamic, dynamic>?;
+            final Map<dynamic, dynamic>? medicinesData =
+                snapshot.data!.value as Map<dynamic, dynamic>?;
 
             if (medicinesData == null) {
               return Center(child: Text('No medicine data available'));
@@ -90,20 +96,50 @@ class _ViewMedicineScreenState extends State<ViewMedicineScreen> {
             List<Medicine> medicines = [];
 
             medicinesData.forEach((key, value) {
-              String medicineId = key.toString(); // Assuming key is the medicine ID
+              String medicineId = key.toString();
+              List<String> timesOfDay = (value['timesOfDay'] as String).split(',');
+              for (String time in timesOfDay) {
+                if (!sessions.contains(time)) {
+                  sessions.add(time);
+                }
+              }
               Medicine medicine = Medicine(
-                id :medicineId,
+                id: medicineId,
                 name: value['medicineName'].toString(),
                 frequency: value['frequency'] ?? '',
                 dosage: value['dosage'] ?? '',
                 start_date: value['startDate'] ?? '',
-                end_date : value['endDate'] ?? '',
-                times_of_day : value['timesOfDay'] ?? '',
-                instructions : value['instructions'] ?? '',
+                end_date: value['endDate'] ?? '',
+                instructions: value['instructions'] ?? '',
+                times_of_day: value['timesOfDay'],
               );
               medicines.add(medicine);
             });
+// try {
+//         for (var session in sessions) {
+//         switch (session) {
+//           case 'Morning':
+//              MedicationReminder.schedulePeriodicReminder(10, 0,1);
+//             break;
+//           case 'Afternoon':
+//              MedicationReminder.schedulePeriodicReminder(14, 0,2);
+//             break;
+//           case 'Evening':
+//              MedicationReminder.schedulePeriodicReminder(18, 0,3);
+//             break;
+//           case 'Night':
+//              MedicationReminder.schedulePeriodicReminder(20, 0,4);
+//             break;
+//           default:
+//             break;
+//         }
+//       }
 
+//       print('Medication reminders scheduled successfully.');
+//     } catch (error) {
+//       print('Error fetching medication data: $error');
+//     }
+//
             return ListView.builder(
               itemCount: medicines.length,
               itemBuilder: (context, index) {
