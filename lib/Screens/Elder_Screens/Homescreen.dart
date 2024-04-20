@@ -11,7 +11,6 @@ import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Exercises/viewexerci
 // import 'package:location/location.dart';
 import '../Minor screens/pageroute.dart';
 import 'Dashboard/Nutrition/viewnutritionscreeen.dart';
-import 'Dashboard/Safetyfeature/location.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
