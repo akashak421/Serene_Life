@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_field, library_private_types_in_public_api, avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -7,6 +9,8 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SafetyfeatureScreen extends StatefulWidget {
+  const SafetyfeatureScreen({super.key});
+
   @override
   _SafetyfeatureScreenState createState() => _SafetyfeatureScreenState();
 }
@@ -33,15 +37,15 @@ class _SafetyfeatureScreenState extends State<SafetyfeatureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Emergency Assistance'),
+        title: const Text('Emergency Assistance'),
       ),
       body: Center(
         child: ElevatedButton.icon(
           onPressed: _shareLocationAndAlert,
-          icon: Icon(Icons.announcement, size: 50),
-          label: Text('Emergency'),
+          icon: const Icon(Icons.announcement, size: 50),
+          label: const Text('Emergency'),
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
           ),
         ),
       ),

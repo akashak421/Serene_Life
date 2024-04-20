@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class ScaleTransitionRoute<T> extends MaterialPageRoute<T> {
   ScaleTransitionRoute({
-    required WidgetBuilder builder,
-    RouteSettings? settings,
-  }) : super(builder: builder, settings: settings);
+    required super.builder,
+    super.settings,
+  });
 
   @override
   Widget buildTransitions(

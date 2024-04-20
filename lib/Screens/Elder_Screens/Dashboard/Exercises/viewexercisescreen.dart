@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:Serene_Life/Screens/Caretaker_Screens/caretakerhomescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -22,7 +24,7 @@ class Exercise {
 }
 
 class ViewExerciseScreen extends StatefulWidget {
-  const ViewExerciseScreen({Key? key}) : super(key: key);
+  const ViewExerciseScreen({super.key});
 
   @override
   _ViewExerciseScreenState createState() => _ViewExerciseScreenState();

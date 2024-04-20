@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, library_prefixes, use_build_context_synchronously, avoid_print
+
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Safetyfeature/safety.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +15,7 @@ import '../Minor screens/pageroute.dart';
 import 'Dashboard/Nutrition/viewnutritionscreeen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -216,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         screen = const ViewNutritionScreen();
         break;
         case 'SOS':
-        screen = SafetyfeatureScreen();
+        screen = const SafetyfeatureScreen();
         break;
       default:
         return;

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_const_constructors, avoid_web_libraries_in_flutter, prefer_const_constructors_in_immutables
+// ignore_for_file: unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_const_constructors, avoid_web_libraries_in_flutter, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers, use_super_parameters, avoid_print
 
 // import 'dart:js';
 import 'package:Serene_Life/Screens/Elder_Screens/notification.dart';

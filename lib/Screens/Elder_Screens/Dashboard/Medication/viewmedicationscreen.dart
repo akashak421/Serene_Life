@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last
+// ignore_for_file: non_constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors, avoid_unnecessary_containers, sort_child_properties_last, unused_import
 
 import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/alarm.dart';
@@ -34,7 +34,7 @@ class Medicine {
 }
 
 class ViewMedicineScreen extends StatefulWidget {
-  const ViewMedicineScreen({Key? key}) : super(key: key);
+  const ViewMedicineScreen({super.key});
 
   @override
   _ViewMedicineScreenState createState() => _ViewMedicineScreenState();

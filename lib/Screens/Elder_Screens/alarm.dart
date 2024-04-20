@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element, avoid_print
+
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 
 class MedicationReminder {
@@ -17,7 +19,7 @@ class MedicationReminder {
     DateTime now = DateTime.now();
     DateTime scheduledDate = DateTime(now.year, now.month, now.day, hour, minute);
     if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(Duration(days: 1));
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
     return scheduledDate.difference(now);
   }

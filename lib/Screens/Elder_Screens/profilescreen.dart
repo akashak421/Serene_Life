@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, library_prefixes, use_build_context_synchronously
 
 import 'dart:io';
 
@@ -15,7 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import '../Minor screens/pageroute.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();

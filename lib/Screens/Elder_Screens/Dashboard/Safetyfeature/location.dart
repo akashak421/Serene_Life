@@ -43,6 +43,8 @@
 //     }
 //   }
 
+// ignore_for_file: library_private_types_in_public_api
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
@@ -71,6 +73,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LocationView extends StatefulWidget {
+  const LocationView({super.key});
+
   @override
   _LocationViewState createState() => _LocationViewState();
 }
@@ -132,7 +136,7 @@ class _LocationViewState extends State<LocationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Location Demo'),
+        title: const Text('Location Demo'),
       ),
       body: Center(
         child: Column(
@@ -142,9 +146,9 @@ class _LocationViewState extends State<LocationView> {
               onPressed: () {
                 fetchLocation();
               },
-              child: Text('Fetch Location'),
+              child: const Text('Fetch Location'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(_locationMessage),
           ],
         ),

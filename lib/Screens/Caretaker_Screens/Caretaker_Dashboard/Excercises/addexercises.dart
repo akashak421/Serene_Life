@@ -170,7 +170,7 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
 
       Navigator.pushReplacement(
         context,
-        ScaleTransitionRoute(builder: (context) => ViewExerciseScreen()),
+        ScaleTransitionRoute(builder: (context) => const ViewExerciseScreen()),
       );
     }).catchError((error) {
       // Close the dialog

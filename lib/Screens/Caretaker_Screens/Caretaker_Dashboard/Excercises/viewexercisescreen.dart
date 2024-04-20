@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_super_parameters
 
 import '../../../Minor screens/pageroute.dart';
 import 'addexercises.dart';
@@ -83,7 +83,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: Connect to a Patient'));
+            return const Center(child: Text('Error: Connect to a Patient'));
           } else if (!snapshot.hasData || snapshot.data!.value == null) {
             return const Center(child: Text('No data available'));
           } else {
@@ -124,7 +124,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
                           color: Colors.grey.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 3),
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
@@ -168,7 +168,7 @@ class _ViewExerciseScreenState extends State<ViewExerciseScreen> {
                                   children: [
                                     IconButton(
                                       icon:
-                                          Icon(Icons.edit, color: Colors.blue),
+                                          const Icon(Icons.edit, color: Colors.blue),
                                       onPressed: () {
                                         Navigator.push(
                                           context,

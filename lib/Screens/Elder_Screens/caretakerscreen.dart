@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_const_constructors
+// ignore_for_file: unused_local_variable, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_const_constructors, use_build_context_synchronously, avoid_print
 
 import 'package:Serene_Life/Screens/Elder_Screens/Homescreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/caretakerdetailscreen.dart';

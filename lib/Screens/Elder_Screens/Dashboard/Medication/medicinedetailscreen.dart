@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MedicineDetailsScreen extends StatelessWidget {
   final Medicine medicine;
 
-  MedicineDetailsScreen({required this.medicine});
+  const MedicineDetailsScreen({super.key, required this.medicine});
 
   @override
   Widget build(BuildContext context) {
