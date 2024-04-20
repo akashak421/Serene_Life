@@ -1,3 +1,4 @@
+import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Safetyfeature/safety.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Serene_Life/Screens/authentication/registration.dart'
@@ -7,8 +8,10 @@ import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Medication/viewmedic
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Reports/viewreportscreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/caretakerscreen.dart';
 import 'package:Serene_Life/Screens/Elder_Screens/Dashboard/Exercises/viewexercisescreen.dart';
+// import 'package:location/location.dart';
 import '../Minor screens/pageroute.dart';
 import 'Dashboard/Nutrition/viewnutritionscreeen.dart';
+import 'Dashboard/Safetyfeature/location.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -212,6 +215,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         break;
       case 'Nutrition':
         screen = const ViewNutritionScreen();
+        break;
+        case 'SOS':
+        screen = SafetyfeatureScreen();
         break;
       default:
         return;

@@ -355,7 +355,6 @@ DocumentSnapshot userProfile = await FirebaseFirestore.instance
         'partnerPhoneNumber': FieldValue.delete(),
       });
 
-      // If partner phone number is not null, update the partner's profile to remove current user's phone number
       if (partnerPhoneNumber != null && partnerPhoneNumber.isNotEmpty) {
         await _firestore
             .collection('Profiles')

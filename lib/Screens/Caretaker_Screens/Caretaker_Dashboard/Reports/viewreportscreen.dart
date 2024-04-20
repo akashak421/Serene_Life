@@ -114,7 +114,7 @@ class _ReportScreenState extends State<ReportScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Error: Connect to a Patient'));
           } else if (!snapshot.hasData || snapshot.data!.value == null) {
             return Center(child: Text('No data available'));
           } else {

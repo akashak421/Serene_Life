@@ -34,6 +34,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   final _formKey = GlobalKey<FormState>();
 
+
+@override
+void initState() {
+  super.initState();
+  // Fetch user profile data when the widget is first initialized
+  fetchUserProfileData();
+}
+
+void fetchUserProfileData() {
+  if (user != null) {
+    FirebaseFirestore.instance
+        .collection('Profiles')
+        .doc(user!.phoneNumber)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      if (snapshot.exists) {
+        Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+        setState(() {
+          _nameController.text = data['name'] ?? '';
+          _emailController.text = data['email'] ?? '';
+          _addressController.text = data['address'] ?? '';
+          _ageController.text = data['age'] ?? '';
+        });
+      }
+    }).catchError((error) {
+      print('Error fetching user profile data: $error');
+    });
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
